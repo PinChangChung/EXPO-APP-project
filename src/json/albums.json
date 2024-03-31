@@ -1,0 +1,57 @@
+[
+   {
+      "title": "Popular Books",
+      "data": [
+         {
+            "title": "Fashionopolis",
+            "artist": "Dana Thomas",
+            "press": false,
+            "star": -1,
+            "key": 0
+         },
+         {
+            "title": "Chanel",
+            "artist": "Patrick Mauriès",
+            "press": false,
+            "star": -1,
+            "key": 1
+         },
+         {
+            "title": "Calligraphy",
+            "artist": "June & Lucy",
+            "press": false,
+            "star": -1,
+            "key": 2
+         }
+      ]
+   },
+   {
+      "title": "Newest",
+      "data": [
+         {
+            "title": "Yves Saint Laurent",
+            "artist": "Suzy Menkes",
+            "key": 3,
+            "press": true,
+            "star": 4,
+            "descriptions": "A spectacular visual journey through 40 years of haute couture from one of the best-known and most trend-setting brands in fashion."
+         },
+         {
+            "title": "The Book of Signs",
+            "artist": "Rudolf Koch",
+            "key": 4,
+            "press": true,
+            "star": 3,
+            "descriptions": "A spectacular visual journey through 40 years of haute couture from one of the best-known and most trend-setting brands in fashion."
+         },
+         {
+            "title": "Stitched Up",
+            "artist": "Tansy E. Hoskins",
+            "key": 5,
+            "press": true,
+            "star": 3,
+            "descriptions": "A spectacular visual journey through 40 years of haute couture from one of the best-known and most trend-setting brands in fashion."
+         }
+      ]
+   }
+]
