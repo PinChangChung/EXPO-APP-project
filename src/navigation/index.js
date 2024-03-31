@@ -61,7 +61,7 @@ const MyDrawer = () => {
         drawerActiveBackgroundColor: colors.primary100,
         drawerActiveTintColor: colors.primary700,
         drawerInactiveTintColor: colors.light500,
-        drawerStyle: { width: 250 },
+        drawerStyle: { width: 200 },
         drawerLabelStyle: { fontSize: 18, fontWeight: '400' },
       }}
       drawerContent={props => <CustomDrawerContent {...props} />}
@@ -71,20 +71,9 @@ const MyDrawer = () => {
         component={MyTabs}
         options={{
           headerShown: false,
-          drawerLabel: "Home",
+          drawerLabel: "首頁",
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={24} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Account"
-        component={Test}
-        options={{
-          headerShown: false,
-          drawerLabel: "Account",
-          drawerIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account-circle" color={color} size={24} />
           ),
         }}
       />
@@ -93,7 +82,7 @@ const MyDrawer = () => {
         component={Test}
         options={{
           headerShown: false,
-          drawerLabel: "Setting",
+          drawerLabel: "設定",
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons name="cog" color={color} size={24} />
           ),

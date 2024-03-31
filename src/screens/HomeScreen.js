@@ -11,6 +11,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const HomeScreen = () => {
   const { navigate } = useNavigation();
 
+  const nearpot = "科技大樓站";
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
       <Center>
@@ -18,13 +20,34 @@ const HomeScreen = () => {
           <HStack>
             <Center w={"100%"}>
               <Box bg="#fff" h={154} w={"90%"} borderRadius={17}>
-
+                <HStack h={50} justifyContent="center" alignItems="center">
+                  <Text>
+                    離您最近的站點：{nearpot}
+                  </Text>
+                </HStack>
+                <HStack h={50} justifyContent="center" alignItems="center" mt={22}>
+                  <Box bg="#D9D9D9" h={80} w={150}>
+                    <Center h={"100%"}>
+                      <Text>
+                        MAP
+                      </Text>
+                    </Center>
+                  </Box>
+                  <VStack ml={20}>
+                    <Text>
+                      空柱：10
+                    </Text>
+                    <Text>
+                      可借車輛：15
+                    </Text>
+                  </VStack>
+                </HStack>
               </Box>
             </Center>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={22}>
             <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={()=> navigate("Near")}>
+              <TouchableOpacity onPress={() => navigate("Near")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="map-marker" size={55} color={"#5686E1"} />
                   <Text color={"#5686E1"}>
@@ -34,7 +57,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </Box>
             <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={()=> navigate("Favorite")}>
+              <TouchableOpacity onPress={() => navigate("Favorite")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="heart" size={55} color={"#EB3223"} />
                   <Text color={"#EB3223"}>
@@ -46,7 +69,7 @@ const HomeScreen = () => {
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginBottom={10}>
             <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={()=> navigate("Map")}>
+              <TouchableOpacity onPress={() => navigate("Map")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="map" size={55} color={"#56D665"} />
                   <Text color={"#56D665"}>
@@ -56,7 +79,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </Box>
             <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={()=> navigate("Route")}>
+              <TouchableOpacity onPress={() => navigate("Route")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="bicycle" size={55} color={"#F29D38"} />
                   <Text color={"#F29D38"}>
