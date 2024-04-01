@@ -2,30 +2,25 @@ import React from 'react';
 
 import { Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import Header from "../components/Header"
+import { useNavigation } from "@react-navigation/native";
+import Login from "../screens/LoginScreen"
+
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-const Account = ({ navigation }) => {
-    return (
-        <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-                <Header />
-                <MaterialCommunityIcons
-                    name={'menu'}
-                    size={20}
-                    onPress={() => navigation.openDrawer()}
-                    style={{ marginRight: 20, position: "relative", top: -40, left: 18 }}
-                />
-                <Text style={{ textAlign: "center" }}>
-                    Account
-                </Text>
-            </SafeAreaView>
+const Account = () => {
+    const { navigate } = useNavigation();
+    const HasLogged = false;
 
-        </SafeAreaProvider>
+    if (HasLogged == true) {
+        return (
+            null
+        )
+    } else {
+        return (<Login />)
+    }
 
-    )
 }
 
 export default Account;

@@ -16,6 +16,7 @@ import Favorite from '../screens/Favorite';
 import Map from '../screens/Map';
 import Route from '../screens/Route';
 import Nearby from '../screens/Nearby';
+import Account from '../screens/AccountScreen';
 
 import MyTheme from '../theme';
 
@@ -122,8 +123,8 @@ const MyTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Wishlist"
-        component={Test}
+        name="AccountScreen"
+        component={Account}
         options={{
           headerShown: false,
           title: "帳戶",

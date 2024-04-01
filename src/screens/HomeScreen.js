@@ -19,29 +19,31 @@ const HomeScreen = () => {
         <VStack>
           <HStack>
             <Center w={"100%"}>
-              <Box bg="#fff" h={154} w={"90%"} borderRadius={17}>
-                <HStack h={50} justifyContent="center" alignItems="center">
-                  <Text>
-                    離您最近的站點：{nearpot}
-                  </Text>
-                </HStack>
-                <HStack h={50} justifyContent="center" alignItems="center" mt={22}>
-                  <Box bg="#D9D9D9" h={80} w={150}>
-                    <Center h={"100%"}>
+              <Box bg="#fff" h={200} w={"90%"} borderRadius={17}>
+                <Center h={"85%"}>
+                  <HStack h={50} justifyContent="center" alignItems="center">
+                    <Text fontSize={18}>
+                      離您最近的站點：<Text fontWeight="bold" fontSize={20}>{nearpot}</Text>
+                    </Text>
+                  </HStack>
+                  <HStack h={50} justifyContent="center" alignItems="center" mt={22}>
+                    <Box bg="#D9D9D9" h={80} w={150}>
+                      <Center h={"100%"}>
+                        <Text>
+                          MAP
+                        </Text>
+                      </Center>
+                    </Box>
+                    <VStack ml={20}>
                       <Text>
-                        MAP
+                        空柱：10
                       </Text>
-                    </Center>
-                  </Box>
-                  <VStack ml={20}>
-                    <Text>
-                      空柱：10
-                    </Text>
-                    <Text>
-                      可借車輛：15
-                    </Text>
-                  </VStack>
-                </HStack>
+                      <Text>
+                        可借車輛：15
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Center>
               </Box>
             </Center>
           </HStack>
