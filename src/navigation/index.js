@@ -196,7 +196,11 @@ const HomeStack = ({ navigation }) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "",
+          title: "微笑單車2.0",
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontSize: 15
+          },
           headerLeft: () => (
             <MaterialCommunityIcons
               name={'menu'}
@@ -214,18 +218,13 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "",
+              title: "附近站點",
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
                     size={24}
                   />
-                </Pressable>
-              ),
-              headerRight: () => (
-                <Pressable >
-                  <Image source={{}} />
                 </Pressable>
               )
             }
@@ -238,18 +237,13 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "",
+              title: "最愛站點",
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
                     size={24}
                   />
-                </Pressable>
-              ),
-              headerRight: () => (
-                <Pressable >
-                  <Image source={{}} />
                 </Pressable>
               )
             }
@@ -262,18 +256,13 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "",
+              title: "站點地圖",
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
                     size={24}
                   />
-                </Pressable>
-              ),
-              headerRight: () => (
-                <Pressable>
-                  <Image source={{}} />
                 </Pressable>
               )
             }
@@ -286,18 +275,13 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "",
+              title: "騎乘路線",
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
                     size={24}
                   />
-                </Pressable>
-              ),
-              headerRight: () => (
-                <Pressable >
-                  <Image source={{}} />
                 </Pressable>
               )
             }
