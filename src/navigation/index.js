@@ -204,7 +204,7 @@ const HomeStack = ({ navigation }) => {
           headerLeft: () => (
             <MaterialCommunityIcons
               name={'menu'}
-              size={24}
+              size={30}
               color={'#F29D38'}
               onPress={() => navigation.openDrawer()}
               style={{ marginRight: 20 }}
@@ -218,12 +218,17 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "附近站點",
+              title: "   附近站點",
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontSize: 15
+              },
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
-                    size={24}
+                    size={30}
+                    color={'#F29D38'}
                   />
                 </Pressable>
               )
@@ -237,12 +242,17 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "最愛站點",
+              title: "   最愛站點",
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontSize: 15
+              },
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
-                    size={24}
+                    size={30}
+                    color={'#F29D38'}
                   />
                 </Pressable>
               )
@@ -256,12 +266,17 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "站點地圖",
+              title: "   站點地圖",
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontSize: 15
+              },
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
-                    size={24}
+                    size={30}
+                    color={'#F29D38'}
                   />
                 </Pressable>
               )
@@ -275,12 +290,17 @@ const HomeStack = ({ navigation }) => {
         options={
           ({ navigation }) => (
             {
-              title: "騎乘路線",
+              title: "   騎乘路線",
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontSize: 15
+              },
               headerLeft: () => (
                 <Pressable onPress={() => navigation.goBack()}>
                   <MaterialCommunityIcons
                     name={'chevron-left'}
-                    size={24}
+                    size={30}
+                    color={'#F29D38'}
                   />
                 </Pressable>
               )

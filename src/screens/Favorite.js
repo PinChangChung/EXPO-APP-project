@@ -25,7 +25,7 @@ const Favorite = () => {
                 style={styles.searchtext}
               />
               <TouchableOpacity style={styles.magnify} onPress={() => null}>
-                <MaterialCommunityIcons name="magnify" size={55} color={"#F29D38"} />
+                <MaterialCommunityIcons name="magnify" size={37} color={"#F29D38"} />
               </TouchableOpacity>
             </Box>
           </View>
@@ -121,11 +121,11 @@ const styles = StyleSheet.create({
   },
   searchtext: {
     marginLeft: 15,
-    marginTop: 12,
-    fontSize: 20,
+    marginTop: 5,
+    fontSize: 15,
   },
   magnify: {
-    marginTop: -40,
+    marginTop: -30,
     marginLeft: '80%'
   }
 })
