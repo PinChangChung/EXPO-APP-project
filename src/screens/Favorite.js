@@ -50,8 +50,8 @@ const Favorite = () => {
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginTop={22}>
             <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" >
-                  <MaterialCommunityIcons name="heart" size={55} color={"red"} />
+                <VStack h={"100%"} justifyContent="center" pl={10}>
+                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
                 </VStack>
               </TouchableOpacity>
             </Box>
@@ -59,8 +59,8 @@ const Favorite = () => {
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
             <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" >
-                  <MaterialCommunityIcons name="heart" size={55} color={"red"} />
+                <VStack h={"100%"} justifyContent="center" pl={10}>
+                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
                 </VStack>
               </TouchableOpacity>
             </Box>
@@ -68,8 +68,8 @@ const Favorite = () => {
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
             <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" >
-                  <MaterialCommunityIcons name="heart" size={55} color={"red"} />
+                <VStack h={"100%"} justifyContent="center" pl={10}>
+                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
                 </VStack>
               </TouchableOpacity>
             </Box>
@@ -77,8 +77,8 @@ const Favorite = () => {
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
             <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" >
-                  <MaterialCommunityIcons name="heart" size={55} color={"red"} />
+                <VStack h={"100%"} justifyContent="center" pl={10}>
+                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
                 </VStack>
               </TouchableOpacity>
             </Box>
@@ -86,8 +86,8 @@ const Favorite = () => {
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
             <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center">
-                  <MaterialCommunityIcons name="heart" size={55} color={"red"} />
+                <VStack h={"100%"} justifyContent="center" pl={10}>
+                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
                 </VStack>
               </TouchableOpacity>
             </Box>
