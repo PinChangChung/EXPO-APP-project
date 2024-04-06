@@ -17,7 +17,7 @@ const HomeScreen = () => {
       <Center>
         <VStack>
           <HStack>
-            <Center>
+            <Center w={"100%"}>
               <Box bg="#fff" h={200} w={"90%"} borderRadius={17}>
                 <Center h={"85%"}>
                   <HStack mb={10} mt={-20} h={50} justifyContent="center" alignItems="center">
@@ -43,7 +43,7 @@ const HomeScreen = () => {
             </Center>
           </HStack>
           <HStack>
-            <Center>
+            <Center w={"100%"} mt={10}>
               <Box bg="#fff" h={150} w={"90%"} borderRadius={17}>
                 <HStack h={"100%"} justifyContent="center" alignItems="center">
                   <HStack mr={25} h={70} justifyContent="center" alignItems="center">

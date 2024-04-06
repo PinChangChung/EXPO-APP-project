@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TextInput, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Center, Box, VStack, HStack, Text } from "@gluestack-ui/themed";
+import { Center, Box, VStack, HStack, Text, Image } from "@gluestack-ui/themed";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -27,39 +27,13 @@ const Nearby = () => {
             </Box>
           </View>
         </Box>
-
-        <VStack>
-          <HStack>
-            <Center w={"100%"}>
-              <Box bg="#fff" h={200} w={"80%"} borderRadius={17}>
-                <HStack h={100} justifyContent="center" alignItems="center" mt={50}>
-                  <Box bg="#D9D9D9" h={150} w={200}>
-                    <Center h={"100%"}>
-                      <Text style={{ fontSize: 72 }}>
-                        MAP
-                      </Text>
-                    </Center>
-                  </Box>
-                </HStack>
-              </Box>
-            </Center>
-          </HStack>
-
-
-        </VStack>
+        <Image h={300} w={"100%"} source={require("../../midterm_img/螢幕擷取畫面 2024-04-06 173741.png")} />
       </Center>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 2,
-    shadowRadius: 1.5,
-    elevation: 4,
-  },
   searchbar: {
     height: 65,
     width: '80%',
