@@ -197,10 +197,10 @@ const HomeStack = ({ navigation }) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "微笑單車2.0",
+          title: "U百科",
           headerTintColor: '#000',
           headerTitleStyle: {
-            fontSize: 15
+            fontSize: 18
           },
           headerLeft: () => (
             <MaterialCommunityIcons
