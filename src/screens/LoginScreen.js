@@ -17,6 +17,7 @@ const LoginScreen = () => {
     const dispatch = useDispatch();
 
     const { navigate } = useNavigation();
+
     return (
         <>
             <View style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }}>
@@ -61,7 +62,7 @@ const LoginScreen = () => {
                                     忘記密碼
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigate('RegisterScreen')}>
+                            <TouchableOpacity onPress={() => navigate("RegisterScreen")}>
                                 <Text style={styles.tiptext}>
                                     尚無帳號？註冊
                                 </Text>
