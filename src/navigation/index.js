@@ -16,7 +16,7 @@ import Favorite from '../screens/Favorite';
 import Map from '../screens/Map';
 import Route from '../screens/Route';
 import Nearby from '../screens/Nearby';
-import Account from '../screens/AccountScreen';
+import Account from '../screens/AccountPages';
 
 import MyTheme from '../theme';
 
