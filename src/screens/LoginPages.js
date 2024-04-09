@@ -18,7 +18,6 @@ const LoginPages = () => {
         <Stack.Navigator
             screenOptions={{
                 headerShadowVisible: false,
-                headerShown: true,
                 headerStyle: {
                     backgroundColor: "#FFE27B"
                 }
@@ -29,15 +28,17 @@ const LoginPages = () => {
                 component={LoginScreen}
                 options={{
                     title: "",
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
                 name="RegisterScreen"
                 component={RegisterScreen}
-                options={
+                options={                
                     ({ navigation }) => (
                         {
                             title: "   註冊",
+                            headerShown: "true",
                             headerTintColor: '#000',
                             headerTitleStyle: {
                                 fontSize: 15

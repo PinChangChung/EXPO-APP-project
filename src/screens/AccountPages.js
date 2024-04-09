@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LoginScreen from './LoginScreen';
+import LoginPages from './LoginPages';
 import AccountScreen from './AccountScreen'
 
 
@@ -15,7 +15,7 @@ const Account = () => {
         <>
             {
                 hasLogin ? <AccountScreen /> :
-                    <LoginScreen />
+                    <LoginPages />
             }
         </>
     )

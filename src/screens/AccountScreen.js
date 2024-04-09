@@ -93,11 +93,11 @@ const AccountScreen = () => {
           </Box>
 
           <VStack w={"100%"} justifyContent="center" alignItems="center" mb={40}>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => dispatch(logout())}>
+            <TouchableOpacity style={styles.logoutBotton} onPress={() => dispatch(logout())}>
               <Center h={"100%"} alignItems="flex-start" ml={25}>
                 <HStack>
-                  <MaterialCommunityIcons name="logout" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
+                  <MaterialCommunityIcons name="logout" size={30} color={"#fff"} />
+                  <Text color="#fff" fontSize={20} ml={8}>
                     登出
                   </Text>
                 </HStack>
@@ -116,6 +116,19 @@ const styles = StyleSheet.create({
     height: 55,
     width: "86%",
     backgroundColor: '#FAFAFA',
+    borderRadius: 8,
+    marginBottom: 6,
+    marginTop: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 2,
+    shadowRadius: 1.5,
+    elevation: 4,
+  },
+  logoutBotton: {
+    height: 55,
+    width: "86%",
+    backgroundColor: '#F29D38',
     borderRadius: 8,
     marginBottom: 6,
     marginTop: 6,

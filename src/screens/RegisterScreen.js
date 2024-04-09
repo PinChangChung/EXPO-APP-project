@@ -8,77 +8,98 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 
-const Favorite = () => {
+const RegisterScreen = () => {
   const { navigate } = useNavigation();
-
-  const nearpot = "科技大樓站";
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
       <Center>
-        <Box style={styles.searchbar} >
-          <View className="rounded-full" style={{ backgroundColor: 'light gray' }}>
-            <Box h={"100%"} justifyContent="center" >
-              <TextInput
-                placeholder="搜尋站名"
-                placeholderTextColor={'#F29D38'}
-                style={styles.searchtext}
-              />
-              <TouchableOpacity style={styles.magnify} onPress={() => null}>
-                <MaterialCommunityIcons name="magnify" size={37} color={"#F29D38"} />
-              </TouchableOpacity>
-            </Box>
-          </View>
-        </Box>
-        <Image h={300} w={"100%"} source={require("../../midterm_img/螢幕擷取畫面 2024-04-06 173741.png")} />
-        <VStack w={"100%"}>
-          <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginTop={22}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" pl={10}>
-                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                </VStack>
-              </TouchableOpacity>
-            </Box>
-          </HStack>
-          <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" pl={10}>
-                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                </VStack>
-              </TouchableOpacity>
-            </Box>
-          </HStack>
-          <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" pl={10}>
-                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                </VStack>
-              </TouchableOpacity>
-            </Box>
-          </HStack>
-          <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" pl={10}>
-                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                </VStack>
-              </TouchableOpacity>
-            </Box>
-          </HStack>
-          <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
-              <TouchableOpacity onPress={() => navigate("Near")}>
-                <VStack h={"100%"} justifyContent="center" pl={10}>
-                  <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                </VStack>
-              </TouchableOpacity>
-            </Box>
-          </HStack>
-        </VStack>
-      </Center>
+        <VStack>
+          <Box h={120} justifyContent='center' alignItems='center' mt={30}>
+            <MaterialCommunityIcons name="account-circle" size={80} />
+          </Box>
+          <Center h={30} w={"100%"} mb={30}>
+            <Text fontSize={20}>歡迎，使用者</Text>
+          </Center>
+          <VStack w={"100%"} justifyContent="center" alignItems="center">
+            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="draw-pen" size={30} color={"#F29D38"} />
+                  <Text color="#F29D38" fontSize={20} ml={8}>
+                    修改會員資料
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="card-text" size={30} color={"#F29D38"} />
+                  <Text color="#F29D38" fontSize={20} ml={8}>
+                    綁定悠遊卡
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+          </VStack>
+
+          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
+            <Divider backgroundColor="#F29D38" w={"90%"} />
+          </Box>
+
+          <VStack w={"100%"} justifyContent="center" alignItems="center">
+            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="currency-usd" size={30} color={"#F29D38"} />
+                  <Text color="#F29D38" fontSize={20} ml={8}>
+                    收費方式
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="bicycle" size={30} color={"#F29D38"} />
+                  <Text color="#F29D38" fontSize={20} ml={8}>
+                    設備介紹
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="bike" size={30} color={"#F29D38"} />
+                  <Text color="#F29D38" fontSize={20} ml={8}>
+                    騎乘須知
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+          </VStack>
+
+
+
+          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
+            <Divider backgroundColor="#F29D38" w={"90%"} />
+          </Box>
+
+          <VStack w={"100%"} justifyContent="center" alignItems="center" mb={40}>
+            <TouchableOpacity style={styles.logoutBotton} onPress={() => dispatch(logout())}>
+              <Center h={"100%"} alignItems="flex-start" ml={25}>
+                <HStack>
+                  <MaterialCommunityIcons name="logout" size={30} color={"#fff"} />
+                  <Text color="#fff" fontSize={20} ml={8}>
+                    登出
+                  </Text>
+                </HStack>
+              </Center>
+            </TouchableOpacity>
+          </VStack>
+        </VStack>      </Center>
     </ScrollView>
   );
 };
@@ -112,7 +133,33 @@ const styles = StyleSheet.create({
   magnify: {
     marginTop: -30,
     marginLeft: '80%'
+  },
+  actionBotton: {
+    height: 55,
+    width: "86%",
+    backgroundColor: '#FAFAFA',
+    borderRadius: 8,
+    marginBottom: 6,
+    marginTop: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 2,
+    shadowRadius: 1.5,
+    elevation: 4,
+  },
+  logoutBotton: {
+    height: 55,
+    width: "86%",
+    backgroundColor: '#F29D38',
+    borderRadius: 8,
+    marginBottom: 6,
+    marginTop: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 2,
+    shadowRadius: 1.5,
+    elevation: 4,
   }
 })
 
-export default Favorite;
+export default RegisterScreen;
