@@ -12,10 +12,10 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeScreen from '../screens/HomeScreen';
-import Favorite from '../screens/Favorite';
-import Map from '../screens/Map';
-import Route from '../screens/Route';
-import Nearby from '../screens/Nearby';
+import Favorite from '../screens/FavoriteScreen';
+import Map from '../screens/MapScreen';
+import Route from '../screens/RouteScreen';
+import Nearby from '../screens/NearbyScreen';
 import Account from '../screens/AccountPages';
 import Setting from '../screens/SettingPages'
 

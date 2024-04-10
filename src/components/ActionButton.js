@@ -7,10 +7,9 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionScreen from "../screens/ActionScreen";
 
-export default (props) => {
+export default ({zoomRatio, site}) => {
   const [showActionsheet, setShowActionsheet] = React.useState(false);
   const handleClose = () => setShowActionsheet(!showActionsheet);  
-  const { zoomRatio, site } = props;
 
   return (
     <>

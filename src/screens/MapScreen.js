@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Platform } from "react-native";
 import { Box, Center } from '@gluestack-ui/themed';
@@ -7,29 +8,28 @@ import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
-import metroJson from "../json/metro.json";
 import ActionButton from '../components/ActionButton';
 
 export default function MapScreen() {
    const [msg, setMsg] = useState("Waiting...");
    const [onCurrentLocation, setOnCurrentLocation] = useState(false);
-   const [metro, setMetro] = useState(metroJson);
    const [ubike, setUbike] = useState([]);
    const [zoomRatio, setZoomRatio] = useState(1);
+
+   const [screenSites, setScreenSites] = useState([]);
 
    const [region, setRegion] = useState({
       longitude: 121.544637,
       latitude: 25.024624,
-      longitudeDelta: 0.02,
-      latitudeDelta: 0.04,
+      longitudeDelta: 0.002,
+      latitudeDelta: 0.004,
    })
+
    const [marker, setMarker] = useState({
       coord: {
          longitude: 121.544637,
          latitude: 25.024624,
-      },
-      // name: "國立臺北教育大學",
-      // address: "台北市和平東路二段134號",
+      }
    });
 
    const setRegionAndMarker = (location) => {
@@ -45,9 +45,17 @@ export default function MapScreen() {
             latitude: location.coords.latitude,
          },
       });
+      setScreenSites(screenSite);
    };
 
    const onRegionChangeComplete = (rgn) => {
+      setOnCurrentLocation(false);
+      if (
+         Math.abs(rgn.latitude - region.latitude) > 0.0004 ||
+         Math.abs(rgn.longitude - region.longitude) > 0.0004
+      ) {
+         setRegion(rgn);
+      }
       if (rgn.longitudeDelta > 0.02)
          setZoomRatio(0.02 / rgn.longitudeDelta);
       else
@@ -75,27 +83,28 @@ export default function MapScreen() {
       getUbikeData();
    }, []);
 
+   const screenSite = ubike.filter((site) => {
+      if (Math.abs(site.lat - region.latitude) < 0.0021 &&
+         Math.abs(site.lng - region.longitude) < 0.0021){
+            return site;
+         }
+   })
+
    return (
       <Box flex={1}>
          <MapView
             initialRegion={region}
             style={{ flex: 1 }}
-            showsTraffic
             onRegionChangeComplete={onRegionChangeComplete}
          >
-            {(zoomRatio > 0.14) && metro.map((site) => (
-               <Marker
-                  coordinate={{ latitude: site.latitude, longitude: site.longitude }}
-                  key={`${site.id}${site.line}`}
-                  title={site.name}
-                  description={site.address}
-               >
-                  <Center bg="white" borderRadius={60} p={3 * zoomRatio} borderWidth={2 * zoomRatio} borderColor="black">
-                     <Icon name={"bus"} size={30 * zoomRatio} color="black" />
-                  </Center>
-               </Marker>
-            ))}
-            {(zoomRatio > 0.14) && ubike.map((site) => (
+            <Marker
+               coordinate={marker.coord}
+               title={marker.name}
+               description={marker.address}
+            >
+               <Icon name={"map-marker"} size={60} color="#B12A5B" />
+            </Marker>
+            {(zoomRatio > 0.14) && screenSites.map((site) => (
                <Marker
                   coordinate={{
                      latitude: Number(site.lat),
@@ -119,11 +128,13 @@ export default function MapScreen() {
                right={5}
                bottom={5}
             >
-               <Ionicons name={"locate-outline"}
-                  size={60}
-                  color="black"
-                  onPress={getLocation}
-               />
+               <TouchableOpacity onPress={getLocation}>
+                  <Ionicons name={"locate-outline"}
+                     size={60}
+                     color="black"
+                  />
+               </TouchableOpacity>
+
             </Box>
 
          )}

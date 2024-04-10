@@ -4,7 +4,7 @@ import { ScrollView } from "react-native";
 import { Center, Box, VStack, HStack, Text } from "@gluestack-ui/themed";
 
 
-const ModeScreen = () => {
+const Route = () => {
   return (
     <Box>
 
@@ -12,4 +12,4 @@ const ModeScreen = () => {
   );
 };
 
-export default ModeScreen;
+export default Route;
