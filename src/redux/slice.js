@@ -4,8 +4,8 @@ const initialState = {
     general: {
         name: "",
         email: "",
-        adrs: "",
-        tel: ""
+        pw: "",
+        checkpw: ""
     },
     login: {
         hasLogin: false,
@@ -16,7 +16,7 @@ const accountSlice = createSlice({
     name: 'account',
     initialState,
     reducers: {
-        setGeneralAccountInfo: (state, action) => {
+        setAccountInfo: (state, action) => {
             state.general = action.payload;
         },
         login: (state) => {
@@ -31,6 +31,6 @@ const accountSlice = createSlice({
 export const selectGeneral = (state) => state.account.general;
 export const selectHasLogin = (state) => state.account.login.hasLogin;
 
-export const { setGeneralAccountInfo, login, logout } = accountSlice.actions;
+export const { setAccountInfo, login, logout } = accountSlice.actions;
 
 export default accountSlice.reducer;

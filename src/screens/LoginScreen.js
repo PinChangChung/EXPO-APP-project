@@ -1,11 +1,9 @@
 import React from 'react';
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { useNavigation } from "@react-navigation/native";
 
-
 import { View, TextInput, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Center, Box, VStack, HStack, Text } from "@gluestack-ui/themed";
+import { Center, Box, VStack, Text } from "@gluestack-ui/themed";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -31,7 +29,7 @@ const LoginScreen = () => {
                                 <View className="rounded-full">
                                     <Box h={"100%"} justifyContent="center" >
                                         <TextInput
-                                            placeholder="帳號"
+                                            placeholder="信箱"
                                             placeholderTextColor={'#F29D38'}
                                             style={styles.searchtext}
                                         />
@@ -77,13 +75,6 @@ const LoginScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    shadow: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 2,
-        shadowRadius: 1.5,
-        elevation: 4,
-    },
     searchbar: {
         height: 47,
         width: '80%',

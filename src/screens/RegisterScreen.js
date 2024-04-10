@@ -1,159 +1,204 @@
-import React from "react";
-import { View, TextInput, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Center, Box, VStack, HStack, Text, Image } from "@gluestack-ui/themed";
-
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Center, Box, VStack, Text } from "@gluestack-ui/themed";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
+  FormControlErrorIcon,
+  FormControlLabel,
+  FormControlLabelText,
+  AlertCircleIcon,
+  Input,
+  InputField,
+} from "@gluestack-ui/themed";
+
+import { setAccountInfo } from "../redux/slice";
+import { selectGeneral } from "../redux/slice";
+import { login } from "../redux/slice"
+import { useDispatch, useSelector } from "react-redux";
 
 
 const RegisterScreen = () => {
-  const { navigate } = useNavigation();
+
+  const general = useSelector(selectGeneral);
+  const dispatch = useDispatch();
+  const [name, setName] = useState(general.name);
+  const [nameIsError, setNameIsError] = useState(true);
+  const [email, setEmail] = useState(general.email);
+  const [emailIsError, setEmailIsError] = useState(true);
+  const [pw, setPw] = useState(general.pw);
+  const [pwIsError, setPwIsError] = useState(true);
+  const [checkpw, setCheckpw] = useState(general.checkpw);
+  const [checkpwIsError, setCheckpwIsError] = useState(true);
+
+
+  useEffect(() => {
+
+    if (!nameIsError && !emailIsError && !pwIsError)
+      dispatch(setAccountInfo({ name, email, pw, checkpw }))
+
+    if (email.match(emailRegex)) setEmailIsError(false)
+    else setEmailIsError(true);
+
+    if (name.match(nameRegex)) setNameIsError(false)
+    else setNameIsError(true);
+
+    if (pw > 5) setPwIsError(false)
+    else setPwIsError(true);
+
+    if (checkpw === pw) setCheckpwIsError(false)
+    else setCheckpwIsError(true);
+
+  }, [name, email, pw, checkpw]);
+
+  const nameRegex = /^\w+$/;
+  const emailRegex = /\w{3,}@[a-zA-Z_]+\.[a-zA-Z]{2,5}/;
+  const pwRegex = /\w{5,}/;
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
-      <Center>
-        <VStack>
-          <Box h={120} justifyContent='center' alignItems='center' mt={30}>
-            <MaterialCommunityIcons name="account-circle" size={80} />
+      <VStack w={"100%"}>
+        <Box h={120} justifyContent='center' alignItems='center' mt={30}>
+          <MaterialCommunityIcons name="account-circle" size={80} />
+        </Box>
+
+        <Center>
+          <Box w={"90%"}>
+            <FormControl mb={5} isRequired w={"100%"}>
+              <FormControlLabel ml={10}>
+                <FormControlLabelText>帳號名稱</FormControlLabelText>
+              </FormControlLabel>
+              <Input style={styles.input}>
+                <InputField
+                  placeholder="輸入名稱"
+                  value={name}
+                  onChangeText={(text) => {
+                    setName(text);
+                    if (nameRegex.test(text)) setNameIsError(false);
+                    else setNameIsError(true);
+                  }}
+                />
+              </Input>
+              <FormControlError isInvalid={nameIsError}>
+                <FormControlErrorIcon as={AlertCircleIcon} />
+                <FormControlErrorText>
+                  請輸入大小寫英文或數字
+                </FormControlErrorText>
+              </FormControlError>
+            </FormControl>
+
+            <FormControl mb={5} isRequired w={"100%"}>
+              <FormControlLabel ml={10}>
+                <FormControlLabelText>輸入信箱</FormControlLabelText>
+              </FormControlLabel>
+              <Input style={styles.input}>
+                <InputField
+                  placeholder="請輸入您的google信箱"
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (emailRegex.test(text)) setEmailIsError(false);
+                    else setEmailIsError(true);
+                  }}
+                />
+              </Input>
+              <FormControlError isInvalid={emailIsError}>
+                <FormControlErrorIcon as={AlertCircleIcon} />
+                <FormControlErrorText>
+                  格式須為 abc@example.com
+                </FormControlErrorText>
+              </FormControlError>
+            </FormControl>
+
+            <FormControl mb={5} isRequired w={"100%"}>
+              <FormControlLabel ml={10}>
+                <FormControlLabelText>密碼</FormControlLabelText>
+              </FormControlLabel>
+              <Input style={styles.input}>
+                <InputField
+                  placeholder="輸入密碼"
+                  type="password"
+                  value={pw}
+                  onChangeText={(text) => {
+                    setPw(text);
+                    if (pwRegex.test(text)) setPwIsError(false);
+                    else setPwIsError(true);
+                  }}
+                />
+              </Input>
+              <FormControlError isInvalid={pwIsError}>
+                <FormControlErrorIcon as={AlertCircleIcon} />
+                <FormControlErrorText>
+                  請至少輸入五個字元
+                </FormControlErrorText>
+              </FormControlError>
+            </FormControl>
+
+            <FormControl mb={5} isRequired w={"100%"}>
+              <FormControlLabel ml={10}>
+                <FormControlLabelText>確認密碼</FormControlLabelText>
+              </FormControlLabel>
+              <Input style={styles.input}>
+                <InputField
+                  placeholder="再次輸入密碼"
+                  type="password"
+                  value={checkpw}
+                  onChangeText={(text) => setCheckpw(text)}
+                />
+              </Input>
+              <FormControlError isInvalid={checkpwIsError}>
+                <FormControlErrorIcon as={AlertCircleIcon} />
+                <FormControlErrorText>
+                  請輸入完全相同的密碼
+                </FormControlErrorText>
+              </FormControlError>
+            </FormControl>
+
+            <Center>
+              <TouchableOpacity style={styles.loginAction} onPress={() => dispatch(login())}>
+                <Center className="rounded-full">
+                  <Box h={"100%"} justifyContent="center" >
+                    <Text color='#fff'>註冊</Text>
+                  </Box>
+                </Center>
+              </TouchableOpacity>
+            </Center>
+
+
           </Box>
-          <Center h={30} w={"100%"} mb={30}>
-            <Text fontSize={20}>歡迎，使用者</Text>
-          </Center>
-          <VStack w={"100%"} justifyContent="center" alignItems="center">
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="draw-pen" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    修改會員資料
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="card-text" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    綁定悠遊卡
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-          </VStack>
-
-          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
-            <Divider backgroundColor="#F29D38" w={"90%"} />
-          </Box>
-
-          <VStack w={"100%"} justifyContent="center" alignItems="center">
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="currency-usd" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    收費方式
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="bicycle" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    設備介紹
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="bike" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    騎乘須知
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-          </VStack>
+        </Center>
 
 
-
-          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
-            <Divider backgroundColor="#F29D38" w={"90%"} />
-          </Box>
-
-          <VStack w={"100%"} justifyContent="center" alignItems="center" mb={40}>
-            <TouchableOpacity style={styles.logoutBotton} onPress={() => dispatch(logout())}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="logout" size={30} color={"#fff"} />
-                  <Text color="#fff" fontSize={20} ml={8}>
-                    登出
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-          </VStack>
-        </VStack>      </Center>
+      </VStack>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 2,
-    shadowRadius: 1.5,
-    elevation: 4,
-  },
-  searchbar: {
-    height: 65,
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 50,
-    marginBottom: 20,
-    marginTop: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 2,
-    shadowRadius: 1.5,
-    elevation: 4,
-  },
-  searchtext: {
-    marginLeft: 15,
-    marginTop: 5,
-    fontSize: 15,
-  },
-  magnify: {
-    marginTop: -30,
-    marginLeft: '80%'
-  },
-  actionBotton: {
-    height: 55,
-    width: "86%",
+  input: {
+    height: 45,
+    width: "100%",
     backgroundColor: '#FAFAFA',
-    borderRadius: 8,
-    marginBottom: 6,
-    marginTop: 6,
+    borderRadius: 50,
+    marginBottom: 5,
+    marginTop: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 2,
     shadowRadius: 1.5,
     elevation: 4,
   },
-  logoutBotton: {
+  loginAction: {
     height: 55,
     width: "86%",
     backgroundColor: '#F29D38',
     borderRadius: 8,
-    marginBottom: 6,
-    marginTop: 6,
+    marginBottom: 30,
+    marginTop: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 2,

@@ -17,15 +17,17 @@ import Map from '../screens/Map';
 import Route from '../screens/Route';
 import Nearby from '../screens/Nearby';
 import Account from '../screens/AccountPages';
+import Setting from '../screens/SettingPages'
 
 import MyTheme from '../theme';
+
+import { selectGeneral } from "../redux/slice";
+import { useSelector } from "react-redux";
+import { selectHasLogin } from '../redux/slice';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-
-const Test = () => null;
-
 
 
 const Navigation = () => {
@@ -37,6 +39,11 @@ const Navigation = () => {
 }
 
 const CustomDrawerContent = (props) => {
+
+  const accountInfo = useSelector(selectGeneral);
+  const login = useSelector(selectHasLogin);
+  const defaultName = (accountInfo.name == "" || login == false) ? "使用者" : accountInfo.name;
+
   return (
     <DrawerContentScrollView {...props}
       contentContainerStyle={{ paddingTop: 0 }}
@@ -44,7 +51,7 @@ const CustomDrawerContent = (props) => {
     >
       <VStack pl={20} pt={130}>
         <MaterialCommunityIcons name="account-circle" size={50} />
-        <Text style={{ fontFamily: "Roboto", fontSize: 24, fontWeight: "bold" }}>Thomas</Text>
+        <Text style={{ fontFamily: "Roboto", fontSize: 24, fontWeight: "bold" }}>{defaultName}</Text>
       </VStack>
       <Divider my="$2" />
       <DrawerItemList {...props} />
@@ -79,8 +86,8 @@ const MyDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="Setting"
-        component={Test}
+        name="setting"
+        component={Setting}
         options={{
           headerShown: false,
           drawerLabel: "設定",
@@ -138,47 +145,6 @@ const MyTabs = () => {
         }}
       />
     </Tab.Navigator>
-  );
-}
-
-const Wishlist = ({ navigation }) => {
-  return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar />
-        <Header />
-        <MaterialCommunityIcons
-          name={'menu'}
-          size={20}
-          onPress={() => navigation.openDrawer()}
-          style={{ marginRight: 20, position: "relative", top: -40, left: 18 }}
-        />
-        <Text style={{ textAlign: "center", lineHeight: 100 }}>
-          Wishlist
-        </Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
-
-  );
-}
-
-const MyBooks = ({ navigation }) => {
-  return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar />
-        <Header />
-        <MaterialCommunityIcons
-          name={'menu'}
-          size={20}
-          onPress={() => navigation.openDrawer()}
-          style={{ marginRight: 20, position: "relative", top: -40, left: 18 }}
-        />
-        <Text style={{ textAlign: "center", lineHeight: 100 }}>
-          MyBooks
-        </Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
   );
 }
 

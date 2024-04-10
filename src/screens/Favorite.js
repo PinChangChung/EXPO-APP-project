@@ -1,17 +1,14 @@
 import React from "react";
-import { View, TextInput, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Center, Box, VStack, HStack, Text, Image } from "@gluestack-ui/themed";
+import { View, TextInput,  ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Center, Box, VStack, HStack, Image } from "@gluestack-ui/themed";
 
 import { useNavigation } from "@react-navigation/native";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-
 const Favorite = () => {
   const { navigate } = useNavigation();
-
-  const nearpot = "科技大樓站";
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >

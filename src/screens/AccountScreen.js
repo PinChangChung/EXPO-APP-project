@@ -1,20 +1,19 @@
 import React from "react";
-import { View, TextInput, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Center, Box, VStack, HStack, Text, Image, Divider } from "@gluestack-ui/themed";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
-
-import { useNavigation } from "@react-navigation/native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Center, Box, VStack, HStack, Text, Divider } from "@gluestack-ui/themed";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { useDispatch } from "react-redux";
 import { logout } from "../redux/slice";
+import { selectGeneral } from "../redux/slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const AccountScreen = () => {
-  const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
+  const accountName = useSelector(selectGeneral);
+  const defaultName = accountName.name == "" ? "使用者" : accountName.name;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }}>
@@ -24,7 +23,7 @@ const AccountScreen = () => {
             <MaterialCommunityIcons name="account-circle" size={80} />
           </Box>
           <Center h={30} w={"100%"} mb={30}>
-            <Text fontSize={20}>歡迎，使用者</Text>
+            <Text fontSize={20}>歡迎，{defaultName}</Text>
           </Center>
           <VStack w={"100%"} justifyContent="center" alignItems="center">
             <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
