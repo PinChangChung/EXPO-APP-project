@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Platform } from "react-native";
-import { Box, Center } from '@gluestack-ui/themed';
+import { Box, Center, HStack } from '@gluestack-ui/themed';
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 export default function MapScreen() {
    const [msg, setMsg] = useState("Waiting...");
@@ -68,8 +71,18 @@ export default function MapScreen() {
          setMsg('Permission to access location was denied');
          return;
       }
-      let location = await Location.getCurrentPositionAsync({});
-      setRegionAndMarker(location);
+      //let location = await Location.getCurrentPositionAsync({});
+
+      Location.watchPositionAsync(
+         {
+            accuracy: Location.Accuracy.High,
+            distanceInterval: 2000,
+            timeInterval: 1000,
+         },
+         (loc) => setRegionAndMarker(loc)
+      );
+
+      // setRegionAndMarker(location);
       setOnCurrentLocation(true);
    }
 
@@ -78,29 +91,74 @@ export default function MapScreen() {
       setUbike(ubikeData);
    };
 
+   // const distanceMinSite = () => {
+
+   //    for (let index = 0; index < screenSites.length; index++) {
+   //       if (index + 1 < screenSites.length) {
+   //          if ((((screenSites[index].lat - region.latitude) ^ 2 + (screenSites[index].lng - region.longitude) ^ 2) ^ 0.5) <
+   //             (((screenSites[index + 1].lat - region.latitude) ^ 2 + (screenSites[index + 1].lng - region.longitude) ^ 2) ^ 0.5)) {
+   //             setScreenSites(screenSites[index].push("min"))
+   //          }
+   //       }
+   //    }
+   // }
+
+   // let nearest = screenSites.indexOf("min") == null ? null : screenSites.indexOf("min");
+
    useEffect(() => {
       getLocation();
       getUbikeData();
    }, []);
 
    const screenSite = ubike.filter((site) => {
-      if (Math.abs(site.lat - region.latitude) < 0.0021 &&
-         Math.abs(site.lng - region.longitude) < 0.0021){
-            return site;
-         }
+      if (Math.abs(site.lat - region.latitude) < 0.005 &&
+         Math.abs(site.lng - region.longitude) < 0.005) {
+         return site;
+      }
+   })
+
+   const [searchText, setSearchText] = useState("")
+   const search = () => ubike.filter((site) => {
+      if (site.sna == searchText) {
+         console.log(site);
+      }
    })
 
    return (
       <Box flex={1}>
+         <Center w={"100%"} h={"15%"} bg="#FFE27B">
+            <Box style={styles.searchbar} >
+               <HStack justifyContent='space-between'>
+                  <Box className="rounded-full" w={"83%"}>
+                     <Box h={"100%"} justifyContent="center" >
+                        <TextInput
+                           placeholder="搜尋站點"
+                           placeholderTextColor={'#F29D38'}
+                           style={styles.searchtext}
+                           value={searchText}
+                           onChangeText={(text) => {
+                              setSearchText(text);
+                           }}
+                        />
+                     </Box>
+                  </Box>
+                  <TouchableOpacity onPress={search}>
+                     <Center h={"100%"} w={40} mr={10}>
+                        <MaterialCommunityIcons name="magnify" size={38} color={'#F29D38'} />
+                     </Center>
+                  </TouchableOpacity>
+               </HStack>
+            </Box>
+         </Center>
+
          <MapView
             initialRegion={region}
-            style={{ flex: 1 }}
+            style={{ height: "85%", width: "100%" }}
             onRegionChangeComplete={onRegionChangeComplete}
+            mapType='terrain'
          >
             <Marker
                coordinate={marker.coord}
-               title={marker.name}
-               description={marker.address}
             >
                <Icon name={"map-marker"} size={60} color="#B12A5B" />
             </Marker>
@@ -122,18 +180,24 @@ export default function MapScreen() {
             <Box
                bg="white"
                borderRadius={60}
+               h={60}
+               w={60}
                position="absolute"
                shadow="2"
                zIndex={99}
                right={5}
-               bottom={5}
+               bottom={70}
+               pt={4}
+               opacity={0.8}
             >
-               <TouchableOpacity onPress={getLocation}>
-                  <Ionicons name={"locate-outline"}
-                     size={60}
-                     color="black"
-                  />
-               </TouchableOpacity>
+               <Center>
+                  <TouchableOpacity onPress={getLocation}>
+                     <Ionicons name={"locate-outline"}
+                        size={50}
+                        color="#F29D38"
+                     />
+                  </TouchableOpacity>
+               </Center>
 
             </Box>
 
@@ -141,3 +205,43 @@ export default function MapScreen() {
       </Box>
    );
 }
+
+const styles = StyleSheet.create({
+   searchbar: {
+      height: 47,
+      width: '80%',
+      backgroundColor: '#fff',
+      borderRadius: 50,
+      marginBottom: 6,
+      marginTop: 6,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 2,
+      shadowRadius: 1.5,
+      elevation: 4,
+   },
+   searchtext: {
+      marginLeft: 15,
+      marginTop: 0,
+      fontSize: 15,
+   },
+   tiptext: {
+      marginLeft: 0,
+      marginTop: 17,
+      fontSize: 13,
+      color: "#B76E18",
+   },
+   loginAction: {
+      height: 47,
+      width: '80%',
+      backgroundColor: '#F29D38',
+      borderRadius: 50,
+      marginBottom: 13,
+      marginTop: 6,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 2,
+      shadowRadius: 1.5,
+      elevation: 4,
+   }
+})

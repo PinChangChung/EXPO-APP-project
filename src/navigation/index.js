@@ -105,7 +105,7 @@ const MyTabs = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeStack"
+      initialRouteName="TabHomeStack"
       screenOptions={{
         tabBarInactiveTintColor: colors.light400,
         tabBarActiveTintColor: colors.primary700,
@@ -115,7 +115,7 @@ const MyTabs = () => {
       }}
     >
       <Tab.Screen
-        name="HomeStack"
+        name="TabHomeStack"
         component={HomeStack}
         options={{
           headerShown: false,

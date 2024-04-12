@@ -19,9 +19,9 @@ export default ({zoomRatio, site}) => {
           borderRadius={60}
           p={3 * zoomRatio}
           borderWidth={2 * zoomRatio}
-          borderColor="black"
+          borderColor="#F29D38"
         >
-          <Icon name={"bicycle"} size={30 * zoomRatio} color="black" />
+          <Icon name={"bicycle"} size={30 * zoomRatio} color="#F29D38" />
         </Center>
       </Pressable>
       <Actionsheet isOpen={showActionsheet} onClose={handleClose}>

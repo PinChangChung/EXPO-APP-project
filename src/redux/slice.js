@@ -9,8 +9,9 @@ const initialState = {
     },
     login: {
         hasLogin: false,
-    }
-}; 
+    },
+    colorMode: "light"
+};
 
 const accountSlice = createSlice({
     name: 'account',
@@ -24,13 +25,17 @@ const accountSlice = createSlice({
         },
         logout: (state) => {
             state.login.hasLogin = false;
-        }
+        },
+        toggleColorMode: (state) => {
+            state.colorMode = state.colorMode === "light" ? "dark" : "light";
+        },
     },
 });
 
 export const selectGeneral = (state) => state.account.general;
 export const selectHasLogin = (state) => state.account.login.hasLogin;
+export const selectColorMode = (state) => state.account.colorMode;
 
-export const { setAccountInfo, login, logout } = accountSlice.actions;
+export const { setAccountInfo, login, logout, toggleColorMode } = accountSlice.actions;
 
 export default accountSlice.reducer;

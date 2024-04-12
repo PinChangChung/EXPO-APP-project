@@ -7,6 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { logout } from "../redux/slice";
 import { selectGeneral } from "../redux/slice";
+import { selectColorMode } from "../redux/slice";
+
 import { useDispatch, useSelector } from "react-redux";
 
 const AccountScreen = () => {
@@ -14,96 +16,100 @@ const AccountScreen = () => {
 
   const accountName = useSelector(selectGeneral);
   const defaultName = accountName.name == "" ? "使用者" : accountName.name;
+  const colorMode = useSelector(selectColorMode);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }}>
+    <SafeAreaView style={{ flex: 1, height: "100%" }}>
       <ScrollView>
-        <VStack>
-          <Box h={120} justifyContent='center' alignItems='center' mt={30}>
-            <MaterialCommunityIcons name="account-circle" size={80} />
-          </Box>
-          <Center h={30} w={"100%"} mb={30}>
-            <Text fontSize={20}>歡迎，{defaultName}</Text>
-          </Center>
-          <VStack w={"100%"} justifyContent="center" alignItems="center">
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="draw-pen" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    修改會員資料
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="card-text" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    綁定悠遊卡
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
+        <Box bg={colorMode == "light" ? "#FFE27B" : "#F29D38"}>
+          <VStack>
+            <Box h={120} justifyContent='center' alignItems='center' mt={30}>
+              <MaterialCommunityIcons name="account-circle" size={80} />
+            </Box>
+            <Center h={30} w={"100%"} mb={30}>
+              <Text fontSize={20}>歡迎，{defaultName}</Text>
+            </Center>
+            <VStack w={"100%"} justifyContent="center" alignItems="center">
+              <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="draw-pen" size={30} color={"#F29D38"} />
+                    <Text color="#F29D38" fontSize={20} ml={8}>
+                      修改會員資料
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="card-text" size={30} color={"#F29D38"} />
+                    <Text color="#F29D38" fontSize={20} ml={8}>
+                      綁定悠遊卡
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+            </VStack>
+
+            <Box w={"100%"} alignItems="center" mt={10} mb={10}>
+              <Divider backgroundColor="#F29D38" w={"90%"} />
+            </Box>
+
+            <VStack w={"100%"} justifyContent="center" alignItems="center">
+              <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="currency-usd" size={30} color={"#F29D38"} />
+                    <Text color="#F29D38" fontSize={20} ml={8}>
+                      收費方式
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="bicycle" size={30} color={"#F29D38"} />
+                    <Text color="#F29D38" fontSize={20} ml={8}>
+                      設備介紹
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="bike" size={30} color={"#F29D38"} />
+                    <Text color="#F29D38" fontSize={20} ml={8}>
+                      騎乘須知
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+            </VStack>
+
+
+
+            <Box w={"100%"} alignItems="center" mt={10} mb={10}>
+              <Divider backgroundColor="#F29D38" w={"90%"} />
+            </Box>
+
+            <VStack w={"100%"} justifyContent="center" alignItems="center" mb={40}>
+              <TouchableOpacity style={styles.logoutBotton} onPress={() => dispatch(logout())}>
+                <Center h={"100%"} alignItems="flex-start" ml={25}>
+                  <HStack>
+                    <MaterialCommunityIcons name="logout" size={30} color={"#fff"} />
+                    <Text color="#fff" fontSize={20} ml={8}>
+                      登出
+                    </Text>
+                  </HStack>
+                </Center>
+              </TouchableOpacity>
+            </VStack>
           </VStack>
+        </Box>
 
-          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
-            <Divider backgroundColor="#F29D38" w={"90%"} />
-          </Box>
-
-          <VStack w={"100%"} justifyContent="center" alignItems="center">
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="currency-usd" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    收費方式
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="bicycle" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    設備介紹
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionBotton} onPress={() => null}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="bike" size={30} color={"#F29D38"} />
-                  <Text color="#F29D38" fontSize={20} ml={8}>
-                    騎乘須知
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-          </VStack>
-
-
-
-          <Box w={"100%"} alignItems="center" mt={10} mb={10}>
-            <Divider backgroundColor="#F29D38" w={"90%"} />
-          </Box>
-
-          <VStack w={"100%"} justifyContent="center" alignItems="center" mb={40}>
-            <TouchableOpacity style={styles.logoutBotton} onPress={() => dispatch(logout())}>
-              <Center h={"100%"} alignItems="flex-start" ml={25}>
-                <HStack>
-                  <MaterialCommunityIcons name="logout" size={30} color={"#fff"} />
-                  <Text color="#fff" fontSize={20} ml={8}>
-                    登出
-                  </Text>
-                </HStack>
-              </Center>
-            </TouchableOpacity>
-          </VStack>
-        </VStack>
 
       </ScrollView>
     </SafeAreaView>
