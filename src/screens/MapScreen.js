@@ -115,9 +115,9 @@ export default function MapScreen() {
       getUbikeData();
    }, []);
 
-   useEffect(() => {
-      getLocation();
-   }, [ubike]);
+   // useEffect(() => {
+   //    getLocation();
+   // }, [ubike]);
 
    const screenSite = ubike.filter((site) => {
       if (Math.abs(site.lat - region.latitude) < 0.005 &&

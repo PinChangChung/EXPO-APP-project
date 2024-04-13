@@ -35,9 +35,6 @@ const HomeScreen = () => {
 
   const [screenSites, setScreenSites] = useState([]);
 
-  const [toggleMap, setToggleMap] = useState(false);
-  const [isMapOpen, setIsMapOpen] = useState(false);
-
 
   //setToggleMap = () => toggleMap = !toggleMap;
 
@@ -113,7 +110,6 @@ const HomeScreen = () => {
       Math.abs(site.lng - region.longitude) < 0.0005) {
       return site;
     }
-
   })
 
   useEffect(() => {
@@ -144,7 +140,7 @@ const HomeScreen = () => {
                   <VStack mt={20}>
                     <HStack mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
                       <Text paddingHorizontal={15} fontSize={18} color={textMode}>
-                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{nearpot.map((site) => {
+                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{nearpot.length == 0 ? "附近沒有站點" : nearpot.map((site) => {
                           return site.sna
                         })}</Text>
                       </Text>
@@ -189,12 +185,12 @@ const HomeScreen = () => {
                       </Box>
                       <VStack ml={20}>
                         <Text color={textMode}>
-                          空柱：{nearpot.map((site) => {
+                          空柱：{nearpot.length == 0 ? "---" : nearpot.map((site) => {
                             return site.bemp
                           })}
                         </Text>
                         <Text color={textMode}>
-                          可借車輛：{nearpot.map((site) => {
+                          可借車輛：{nearpot.length == 0 ? "---" : nearpot.map((site) => {
                             return site.sbi
                           })}
                         </Text>
