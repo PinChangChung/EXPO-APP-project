@@ -11,15 +11,22 @@ import RegisterScreen from './RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
+
 
 const LoginPages = () => {
+
+    const colorMode = useSelector(selectColorMode);
+    const headerMode = colorMode == "light" ? "#FFE27B" : "#2E251B";
+    const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
 
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShadowVisible: false,
                 headerStyle: {
-                    backgroundColor: "#FFE27B"
+                    backgroundColor: headerMode
                 }
             }}
         >
@@ -34,12 +41,12 @@ const LoginPages = () => {
             <Stack.Screen
                 name="RegisterScreen"
                 component={RegisterScreen}
-                options={                
+                options={
                     ({ navigation }) => (
                         {
                             title: "   註冊",
                             headerShown: "true",
-                            headerTintColor: '#000',
+                            headerTintColor: textMode,
                             headerTitleStyle: {
                                 fontSize: 15
                             },

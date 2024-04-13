@@ -7,16 +7,23 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import SettingScreen from './SettingScreen';
 import ModeScreen from './ModeScreen'
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
 
 const Stack = createNativeStackNavigator();
 
 const SettingPages = ({ navigation }) => {
+
+    const colorMode = useSelector(selectColorMode);
+    const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+    const headerMode = colorMode == "light" ? "#FFE27B" : "#2E251B";
+
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShadowVisible: false,
                 headerStyle: {
-                    backgroundColor: "#FFE27B"
+                    backgroundColor: headerMode
                 }
             }}
         >
@@ -25,7 +32,7 @@ const SettingPages = ({ navigation }) => {
                 component={SettingScreen}
                 options={{
                     title: "設定",
-                    headerTintColor: '#000',
+                    headerTintColor: textMode,
                     headerTitleStyle: {
                         fontSize: 18
                     },
@@ -47,7 +54,7 @@ const SettingPages = ({ navigation }) => {
                     ({ navigation }) => (
                         {
                             title: "   深淺模式",
-                            headerTintColor: '#000',
+                            headerTintColor: textMode,
                             headerTitleStyle: {
                                 fontSize: 15
                             },

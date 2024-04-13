@@ -20,6 +20,7 @@ import { setAccountInfo } from "../redux/slice";
 import { selectGeneral } from "../redux/slice";
 import { login } from "../redux/slice"
 import { useDispatch, useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
 
 
 const RegisterScreen = () => {
@@ -59,9 +60,13 @@ const RegisterScreen = () => {
   const emailRegex = /\w{3,}@[a-zA-Z_]+\.[a-zA-Z]{2,5}/;
   const pwRegex = /\w{5,}/;
 
+  const colorMode = useSelector(selectColorMode);
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+  const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
-      <VStack w={"100%"}>
+    <ScrollView style={{ flex: 1, height: "100%" }} >
+      <VStack w={"100%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <Box h={120} justifyContent='center' alignItems='center' mt={30}>
           <MaterialCommunityIcons name="account-circle" size={80} />
         </Box>
@@ -70,9 +75,9 @@ const RegisterScreen = () => {
           <Box w={"90%"}>
             <FormControl mb={5} isRequired w={"100%"}>
               <FormControlLabel ml={10}>
-                <FormControlLabelText>帳號名稱</FormControlLabelText>
+                <FormControlLabelText color={textMode}>帳號名稱</FormControlLabelText>
               </FormControlLabel>
-              <Input style={styles.input}>
+              <Input style={styles.input} bg={blockMode}>
                 <InputField
                   placeholder="輸入名稱"
                   value={name}
@@ -93,9 +98,9 @@ const RegisterScreen = () => {
 
             <FormControl mb={5} isRequired w={"100%"}>
               <FormControlLabel ml={10}>
-                <FormControlLabelText>輸入信箱</FormControlLabelText>
+                <FormControlLabelText color={textMode}>輸入信箱</FormControlLabelText>
               </FormControlLabel>
-              <Input style={styles.input}>
+              <Input style={styles.input} bg={blockMode}>
                 <InputField
                   placeholder="請輸入您的google信箱"
                   value={email}
@@ -116,9 +121,9 @@ const RegisterScreen = () => {
 
             <FormControl mb={5} isRequired w={"100%"}>
               <FormControlLabel ml={10}>
-                <FormControlLabelText>密碼</FormControlLabelText>
+                <FormControlLabelText color={textMode}>密碼</FormControlLabelText>
               </FormControlLabel>
-              <Input style={styles.input}>
+              <Input style={styles.input} bg={blockMode}>
                 <InputField
                   placeholder="輸入密碼"
                   type="password"
@@ -140,9 +145,9 @@ const RegisterScreen = () => {
 
             <FormControl mb={5} isRequired w={"100%"}>
               <FormControlLabel ml={10}>
-                <FormControlLabelText>確認密碼</FormControlLabelText>
+                <FormControlLabelText color={textMode}>確認密碼</FormControlLabelText>
               </FormControlLabel>
-              <Input style={styles.input}>
+              <Input style={styles.input} bg={blockMode}>
                 <InputField
                   placeholder="再次輸入密碼"
                   type="password"
@@ -182,7 +187,6 @@ const styles = StyleSheet.create({
   input: {
     height: 45,
     width: "100%",
-    backgroundColor: '#FAFAFA',
     borderRadius: 50,
     marginBottom: 5,
     marginTop: 3,

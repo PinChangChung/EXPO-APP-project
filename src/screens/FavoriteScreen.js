@@ -16,6 +16,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
 
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
+
+import lightMap from "../mapStyle_json/lightMode.json"
+import darkMap from "../mapStyle_json/darkMode.json"
+
 const Favorite = () => {
   const { navigate } = useNavigation();
 
@@ -119,14 +125,19 @@ const Favorite = () => {
     }
   })
 
+  const colorMode = useSelector(selectColorMode);
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+  const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
+    <ScrollView style={{ flex: 1, height: "100%" }} >
 
       <Box flex={1} h={"100%"} w={"100%"}>
         <MapView
           initialRegion={region}
           style={{ height: 350, width: "100%" }}
           onRegionChangeComplete={onRegionChangeComplete}
+          customMapStyle={colorMode == "light" ? lightMap : darkMap}
         >
           <Marker
             coordinate={marker.coord}
@@ -175,7 +186,7 @@ const Favorite = () => {
         )}
       </Box>
 
-      <Center>
+      <Center bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <VStack w={"100%"}>
 
           {(zoomRatio > 0.14) && (screenSites.map((site) => {
@@ -196,12 +207,12 @@ const Favorite = () => {
             </HStack>
           }))}
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginTop={22}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"80%"} h={"70%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => null}>
                 <VStack h={"100%"} justifyContent="center" pl={10}>
                   <HStack>
                     <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                    <Text ml={20} lineHeight={40}>
+                    <Text ml={20} lineHeight={40} color={textMode}>
                       404 Not Found
                     </Text>
                   </HStack>
@@ -212,12 +223,12 @@ const Favorite = () => {
           </HStack>
 
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"80%"} h={"70%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => null}>
                 <VStack h={"100%"} justifyContent="center" pl={10}>
                   <HStack>
                     <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                    <Text ml={20} lineHeight={40}>
+                    <Text ml={20} lineHeight={40} color={textMode}>
                       404 Not Found
                     </Text>
                   </HStack>
@@ -226,12 +237,12 @@ const Favorite = () => {
             </Box>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"80%"} h={"70%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => null}>
                 <VStack h={"100%"} justifyContent="center" pl={10}>
                   <HStack>
                     <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                    <Text ml={20} lineHeight={40}>
+                    <Text ml={20} lineHeight={40} color={textMode}>
                       404 Not Found
                     </Text>
                   </HStack>
@@ -240,12 +251,12 @@ const Favorite = () => {
             </Box>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={-30}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"80%"} h={"70%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => null}>
                 <VStack h={"100%"} justifyContent="center" pl={10}>
                   <HStack>
                     <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                    <Text ml={20} lineHeight={40}>
+                    <Text ml={20} lineHeight={40} color={textMode}>
                       404 Not Found
                     </Text>
                   </HStack>
@@ -254,12 +265,12 @@ const Favorite = () => {
             </Box>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={0}>
-            <Box w={"80%"} h={"70%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"80%"} h={"70%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => null}>
                 <VStack h={"100%"} justifyContent="center" pl={10}>
                   <HStack>
                     <MaterialCommunityIcons name="heart" size={40} color={"red"} />
-                    <Text ml={20} lineHeight={40}>
+                    <Text ml={20} lineHeight={40} color={textMode}>
                       404 Not Found
                     </Text>
                   </HStack>

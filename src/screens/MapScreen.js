@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Platform } from "react-native";
-import { Box, Center, HStack } from '@gluestack-ui/themed';
+import { Box, Center, HStack, Input, InputField } from '@gluestack-ui/themed';
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,6 +11,12 @@ import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
+
+import lightMap from "../mapStyle_json/lightMode.json"
+import darkMap from "../mapStyle_json/darkMode.json"
 
 
 export default function MapScreen() {
@@ -102,13 +108,16 @@ export default function MapScreen() {
    //       }
    //    }
    // }
-
    // let nearest = screenSites.indexOf("min") == null ? null : screenSites.indexOf("min");
 
    useEffect(() => {
       getLocation();
       getUbikeData();
    }, []);
+
+   useEffect(() => {
+      getLocation();
+   }, [ubike]);
 
    const screenSite = ubike.filter((site) => {
       if (Math.abs(site.lat - region.latitude) < 0.005 &&
@@ -124,16 +133,20 @@ export default function MapScreen() {
       }
    })
 
+   const colorMode = useSelector(selectColorMode);
+   const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+   const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
+
    return (
       <Box flex={1}>
-         <Center w={"100%"} h={"15%"} bg="#FFE27B">
-            <Box style={styles.searchbar} >
+         <Center w={"100%"} h={"15%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+            <Input style={styles.searchbar} bg={blockMode}>
                <HStack justifyContent='space-between'>
                   <Box className="rounded-full" w={"83%"}>
                      <Box h={"100%"} justifyContent="center" >
-                        <TextInput
+                        <InputField
                            placeholder="搜尋站點"
-                           placeholderTextColor={'#F29D38'}
+                           placeholderTextColor={textMode}
                            style={styles.searchtext}
                            value={searchText}
                            onChangeText={(text) => {
@@ -148,14 +161,14 @@ export default function MapScreen() {
                      </Center>
                   </TouchableOpacity>
                </HStack>
-            </Box>
+            </Input>
          </Center>
 
          <MapView
             initialRegion={region}
             style={{ height: "85%", width: "100%" }}
             onRegionChangeComplete={onRegionChangeComplete}
-            mapType='terrain'
+            customMapStyle={colorMode == "light" ? lightMap : darkMap}
          >
             <Marker
                coordinate={marker.coord}
@@ -210,7 +223,6 @@ const styles = StyleSheet.create({
    searchbar: {
       height: 47,
       width: '80%',
-      backgroundColor: '#fff',
       borderRadius: 50,
       marginBottom: 6,
       marginTop: 6,
@@ -224,6 +236,7 @@ const styles = StyleSheet.create({
       marginLeft: 15,
       marginTop: 0,
       fontSize: 15,
+      opacity: 0.5
    },
    tiptext: {
       marginLeft: 0,

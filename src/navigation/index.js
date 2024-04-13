@@ -4,9 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 
-import { Divider, VStack } from "@gluestack-ui/themed";
+import { Divider, VStack, Text } from "@gluestack-ui/themed";
 
-import { Text, StatusBar, Pressable, Image } from "react-native";
+import { StatusBar, Pressable, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,11 +24,11 @@ import MyTheme from '../theme';
 import { selectGeneral } from "../redux/slice";
 import { useSelector } from "react-redux";
 import { selectHasLogin } from '../redux/slice';
+import { selectColorMode } from "../redux/slice";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-
 
 const Navigation = () => {
   return (
@@ -39,6 +39,9 @@ const Navigation = () => {
 }
 
 const CustomDrawerContent = (props) => {
+  const colorMode = useSelector(selectColorMode);
+  const headerMode = colorMode == "light" ? "#FFE27B" : "#2E251B";
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
 
   const accountInfo = useSelector(selectGeneral);
   const login = useSelector(selectHasLogin);
@@ -47,11 +50,11 @@ const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}
       contentContainerStyle={{ paddingTop: 0 }}
-      style={{ backgroundColor: "#FFE27B" }}
+      style={{ backgroundColor: headerMode }}
     >
       <VStack pl={20} pt={130}>
         <MaterialCommunityIcons name="account-circle" size={50} />
-        <Text style={{ fontFamily: "Roboto", fontSize: 24, fontWeight: "bold" }}>{defaultName}</Text>
+        <Text color={textMode} style={{ fontFamily: "Roboto", fontSize: 24, fontWeight: "bold" }}>{defaultName}</Text>
       </VStack>
       <Divider my="$2" />
       <DrawerItemList {...props} />
@@ -68,7 +71,7 @@ const MyDrawer = () => {
       screenOptions={{
         drawerActiveBackgroundColor: colors.primary100,
         drawerActiveTintColor: colors.primary700,
-        drawerInactiveTintColor: colors.light500,
+        drawerInactiveTintColor: colors.light400,
         drawerStyle: { width: 200 },
         drawerLabelStyle: { fontSize: 18, fontWeight: '400' },
       }}
@@ -103,6 +106,9 @@ const MyDrawer = () => {
 const MyTabs = () => {
   const { colors } = useTheme();
 
+  const colorMode = useSelector(selectColorMode);
+  const tabMode = colorMode == "light" ? "#fff" : "#474747";
+
   return (
     <Tab.Navigator
       initialRouteName="TabHomeStack"
@@ -110,7 +116,7 @@ const MyTabs = () => {
         tabBarInactiveTintColor: colors.light400,
         tabBarActiveTintColor: colors.primary700,
         tabBarStyle: {
-          backgroundColor: "#fff"
+          backgroundColor: tabMode
         }
       }}
     >
@@ -150,12 +156,17 @@ const MyTabs = () => {
 
 const HomeStack = ({ navigation }) => {
 
+  const colorMode = useSelector(selectColorMode);
+  const headerMode = colorMode == "light" ? "#FFE27B" : "#2E251B";
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShadowVisible: false,
         headerStyle: {
-          backgroundColor: "#FFE27B"
+          backgroundColor: headerMode
         }
       }}
     >
@@ -164,7 +175,7 @@ const HomeStack = ({ navigation }) => {
         component={HomeScreen}
         options={{
           title: "U百科",
-          headerTintColor: '#000',
+          headerTintColor: textMode,
           headerTitleStyle: {
             fontSize: 18
           },
@@ -186,7 +197,7 @@ const HomeStack = ({ navigation }) => {
           ({ navigation }) => (
             {
               title: "   附近站點",
-              headerTintColor: '#000',
+              headerTintColor: textMode,
               headerTitleStyle: {
                 fontSize: 15
               },
@@ -210,7 +221,7 @@ const HomeStack = ({ navigation }) => {
           ({ navigation }) => (
             {
               title: "   最愛站點",
-              headerTintColor: '#000',
+              headerTintColor: textMode,
               headerTitleStyle: {
                 fontSize: 15
               },
@@ -234,7 +245,7 @@ const HomeStack = ({ navigation }) => {
           ({ navigation }) => (
             {
               title: "   站點地圖",
-              headerTintColor: '#000',
+              headerTintColor: textMode,
               headerTitleStyle: {
                 fontSize: 15
               },
@@ -258,7 +269,7 @@ const HomeStack = ({ navigation }) => {
           ({ navigation }) => (
             {
               title: "   騎乘路線",
-              headerTintColor: '#000',
+              headerTintColor: textMode,
               headerTitleStyle: {
                 fontSize: 15
               },

@@ -16,11 +16,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
 
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
+
+import lightMap from "../mapStyle_json/lightMode.json"
+import darkMap from "../mapStyle_json/darkMode.json"
 
 const HomeScreen = () => {
   const { navigate } = useNavigation();
 
-  const nearpot = "科技大樓站";
+  const [nearpot, setNearpot] = useState([]);
 
 
   const [msg, setMsg] = useState("Waiting...");
@@ -40,8 +45,8 @@ const HomeScreen = () => {
   const [region, setRegion] = useState({
     longitude: 121.544637,
     latitude: 25.024624,
-    longitudeDelta: 0.002,
-    latitudeDelta: 0.004,
+    longitudeDelta: 0.0015,
+    latitudeDelta: 0.0015,
   })
 
   const [marker, setMarker] = useState({
@@ -95,29 +100,25 @@ const HomeScreen = () => {
   const getUbikeData = async () => {
     const ubikeData = await getUbikeInfo();
     setUbike(ubikeData);
+
   };
 
+  useEffect(() => {
+    getLocation();
+    setNearpot(distanceMinSite);
+  }, [ubike, screenSite]);
 
-
-  const distanceMinSite = () => {
-
-    for (let index = 0; index < screenSites.length; index++) {
-      if (index + 1 < screenSites.length) {
-        if ((((screenSites[index].lat - region.latitude) ^ 2 + (screenSites[index].lng - region.longitude) ^ 2) ^ 0.5) <
-          (((screenSites[index + 1].lat - region.latitude) ^ 2 + (screenSites[index + 1].lng - region.longitude) ^ 2) ^ 0.5)) {
-          setScreenSites(screenSites[index].push("min"))
-        }
-      }
+  const distanceMinSite = ubike.filter((site) => {
+    if (Math.abs(site.lat - region.latitude) < 0.0005 &&
+      Math.abs(site.lng - region.longitude) < 0.0005) {
+      return site;
     }
-  }
 
-  let nearest = screenSites.indexOf("min") == null ? null : screenSites.indexOf("min");
+  })
 
   useEffect(() => {
     getLocation();
     getUbikeData();
-    distanceMinSite();
-    console.log(nearest.sna)
   }, []);
 
   const screenSite = ubike.filter((site) => {
@@ -127,18 +128,25 @@ const HomeScreen = () => {
     }
   })
 
+  const colorMode = useSelector(selectColorMode);
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+  const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
+
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#FFE27B", height: "100%" }} >
-      <Center>
+    <ScrollView style={{ flex: 1, height: "100%" }} >
+      <Center bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <VStack>
           <HStack>
             <Center w={"100%"}>
-              <Box bg="#fff" h={200} w={"90%"} borderRadius={17}>
+              <Box bg={blockMode} h={240} w={"90%"} borderRadius={17}>
                 <Center h={"85%"}>
                   <VStack mt={20}>
-                    <HStack mb={10} mt={-20} h={50} justifyContent="center" alignItems="center">
-                      <Text fontSize={18}>
-                        離您最近的站點：<Text fontWeight="bold" fontSize={20}>{nearpot}</Text>
+                    <HStack mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
+                      <Text paddingHorizontal={15} fontSize={18} color={textMode}>
+                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{nearpot.map((site) => {
+                          return site.sna
+                        })}</Text>
                       </Text>
                     </HStack>
                     <HStack h={50} justifyContent="center" alignItems="center" mt={22}>
@@ -148,7 +156,7 @@ const HomeScreen = () => {
                             initialRegion={region}
                             style={{ height: "100%", width: "100%" }}
                             onRegionChangeComplete={onRegionChangeComplete}
-                            liteMode="true"
+                            customMapStyle={colorMode == "light" ? lightMap : darkMap}
                           >
                             <Marker
                               coordinate={marker.coord}
@@ -180,11 +188,15 @@ const HomeScreen = () => {
                         </Box>
                       </Box>
                       <VStack ml={20}>
-                        <Text>
-                          空柱：10
+                        <Text color={textMode}>
+                          空柱：{nearpot.map((site) => {
+                            return site.bemp
+                          })}
                         </Text>
-                        <Text>
-                          可借車輛：15
+                        <Text color={textMode}>
+                          可借車輛：{nearpot.map((site) => {
+                            return site.sbi
+                          })}
                         </Text>
                       </VStack>
                     </HStack>
@@ -196,24 +208,24 @@ const HomeScreen = () => {
           </HStack>
           <HStack>
             <Center w={"100%"} mt={10}>
-              <Box bg="#fff" h={150} w={"90%"} borderRadius={17}>
+              <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
                 <HStack h={"100%"} justifyContent="center" alignItems="center">
                   <HStack mr={25} h={70} justifyContent="center" alignItems="center">
                     <MaterialCommunityIcons name="weather-partly-cloudy" size={70} color={"#F29D38"} />
                   </HStack>
                   <VStack>
-                    <Text fontWeight="bold" fontSize={20} pb={5}>
+                    <Text fontWeight="bold" fontSize={20} pb={5} color={textMode}>
                       大安區
                     </Text>
-                    <Text pb={2}>
+                    <Text pb={2} color={textMode}>
                       晴時有雲
                     </Text>
-                    <Text pb={10}>
+                    <Text pb={10} color={textMode}>
                       30°C
                     </Text>
                     <HStack>
                       <MaterialCommunityIcons name="weather-pouring" size={22} color={"#F29D38"} />
-                      <Text pl={3} pb={5}>
+                      <Text pl={3} pb={5} color={textMode}>
                         降雨機率：2%
                       </Text>
                     </HStack>
@@ -223,7 +235,7 @@ const HomeScreen = () => {
             </Center>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={22}>
-            <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="map-marker" size={55} color={"#5686E1"} />
@@ -233,7 +245,7 @@ const HomeScreen = () => {
                 </VStack>
               </TouchableOpacity>
             </Box>
-            <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Favorite")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="heart" size={55} color={"#EB3223"} />
@@ -245,7 +257,7 @@ const HomeScreen = () => {
             </Box>
           </HStack>
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginBottom={10}>
-            <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Map")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="map" size={55} color={"#56D665"} />
@@ -255,7 +267,7 @@ const HomeScreen = () => {
                 </VStack>
               </TouchableOpacity>
             </Box>
-            <Box w={"36%"} h={"100%"} bg="#fff" borderRadius={20} style={styles.shadow}>
+            <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Route")}>
                 <VStack h={"100%"} justifyContent="center" alignItems="center">
                   <MaterialCommunityIcons name="bicycle" size={55} color={"#F29D38"} />
@@ -270,7 +282,7 @@ const HomeScreen = () => {
       </Center>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   shadow: {

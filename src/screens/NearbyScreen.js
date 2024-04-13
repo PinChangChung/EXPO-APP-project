@@ -10,6 +10,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
 
+import { useSelector } from "react-redux";
+import { selectColorMode } from "../redux/slice";
+
+import lightMap from "../mapStyle_json/lightMode.json"
+import darkMap from "../mapStyle_json/darkMode.json"
+
 export default function MapScreen() {
   const [msg, setMsg] = useState("Waiting...");
   const [onCurrentLocation, setOnCurrentLocation] = useState(false);
@@ -100,14 +106,19 @@ export default function MapScreen() {
     }
   })
 
+
+  const colorMode = useSelector(selectColorMode);
+  const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
+  const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
+
   return (
     <Box flex={1}>
       <MapView
         initialRegion={region}
         style={{ width: "100%", height: "75%" }}
         onRegionChangeComplete={onRegionChangeComplete}
-        mapType='terrain'
-      >
+        customMapStyle={colorMode == "light" ? lightMap : darkMap}
+        >
         <Marker
           coordinate={marker.coord}
           title={marker.name}
@@ -154,8 +165,8 @@ export default function MapScreen() {
 
         </Box>
       )}
-      <Center h={"25%"} bg="#FFE27B">
-        <Box style={styles.bar} >
+      <Center h={"25%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+        <Box style={styles.bar} bg={blockMode}>
           <Box className="rounded-full">
             <Box h={"100%"} justifyContent="center" >
 
@@ -173,7 +184,6 @@ const styles = StyleSheet.create({
   bar: {
       height: "90%",
       width: '90%',
-      backgroundColor: '#fff',
       borderRadius: 30,   
       marginBottom: 6,
       marginTop: 6,
