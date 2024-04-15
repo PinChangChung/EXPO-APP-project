@@ -89,8 +89,17 @@ const HomeScreen = () => {
       setMsg('Permission to access location was denied');
       return;
     }
-    let location = await Location.getCurrentPositionAsync({});
-    setRegionAndMarker(location);
+    // let location = await Location.getCurrentPositionAsync({});
+    // setRegionAndMarker(location);
+
+    Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        distanceInterval: 2000,
+        timeInterval: 1000,
+      },
+      (loc) => setRegionAndMarker(loc)
+    );
     setOnCurrentLocation(true);
   }
 

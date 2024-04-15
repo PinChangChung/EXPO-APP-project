@@ -7,10 +7,14 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import ActionScreen from "../screens/ActionScreen";
 
-export default ({zoomRatio, site}) => {
+export default ({ zoomRatio, site }) => {
   const [showActionsheet, setShowActionsheet] = React.useState(false);
-  const handleClose = () => setShowActionsheet(!showActionsheet);  
-
+  const handleClose = () =>{
+    setShowActionsheet(!showActionsheet);
+    console.log("123456")
+    // console.log(site);
+  } 
+  //if (showActionsheet) console.log("123456");
   return (
     <>
       <Pressable onPress={handleClose}>
@@ -23,10 +27,11 @@ export default ({zoomRatio, site}) => {
         >
           <Icon name={"bicycle"} size={30 * zoomRatio} color="#F29D38" />
         </Center>
+        <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
+          <ActionScreen handleClose={handleClose} site={site} />
+        </Actionsheet>
       </Pressable>
-      <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
-        <ActionScreen handleClose={handleClose} site={site} />
-      </Actionsheet>
+
     </>
   );
 };

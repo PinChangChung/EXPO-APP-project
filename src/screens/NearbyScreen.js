@@ -95,8 +95,8 @@ export default function MapScreen() {
   };
 
   useEffect(() => {
-    getLocation();
     getUbikeData();
+    getLocation();
   }, []);
 
   const screenSite = ubike.filter((site) => {

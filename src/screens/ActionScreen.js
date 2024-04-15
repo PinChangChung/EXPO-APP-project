@@ -25,6 +25,7 @@ const ActionScreen = ({ handleClose, site }) => {
     barPercentage: 0.5,
   };
   const screenWidth = Dimensions.get("window").width;
+  console.log("123456")
   const data = [
     {
       name: "可還",
