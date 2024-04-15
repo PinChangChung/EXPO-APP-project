@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "U百科",
-    "slug": "wk1proj",
+    "slug": "ubike-app-project",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,7 @@
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/cc0e62a0-d7bc-4eff-a328-08db5a2db0a6"
+      "url": "https://u.expo.dev/484cfd0a-6836-41db-b17f-915c70de269b"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -31,7 +31,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "cc0e62a0-d7bc-4eff-a328-08db5a2db0a6"
+        "projectId": "484cfd0a-6836-41db-b17f-915c70de269b"
       }
     },
     "runtimeVersion": {

@@ -110,9 +110,8 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getLocation();
     setNearpot(distanceMinSite);
-  }, [ubike, screenSite]);
+  }, [marker]);
 
   const distanceMinSite = ubike.filter((site) => {
     if (Math.abs(site.lat - region.latitude) < 0.0005 &&

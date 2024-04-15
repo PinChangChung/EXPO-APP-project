@@ -48,7 +48,7 @@ const RegisterScreen = () => {
     if (name.match(nameRegex)) setNameIsError(false)
     else setNameIsError(true);
 
-    if (pw > 5) setPwIsError(false)
+    if (pw.length > 5) setPwIsError(false)
     else setPwIsError(true);
 
     if (checkpw === pw) setCheckpwIsError(false)
@@ -163,7 +163,7 @@ const RegisterScreen = () => {
               </FormControlError>
             </FormControl>
 
-            <Center>
+            <Center mb={80}>
               <TouchableOpacity style={styles.loginAction} onPress={() => dispatch(login())}>
                 <Center className="rounded-full">
                   <Box h={"100%"} justifyContent="center" >
