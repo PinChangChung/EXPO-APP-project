@@ -2,13 +2,22 @@ import { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Platform } from "react-native";
-import { Box, Center } from '@gluestack-ui/themed';
+import { Box, Center, Pressable } from '@gluestack-ui/themed';
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
+import ActionScreen from './ActionScreen';
+
+
+
+import {
+
+  Actionsheet,
+} from "@gluestack-ui/themed";
+
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
@@ -74,19 +83,19 @@ export default function MapScreen() {
       setMsg('Permission to access location was denied');
       return;
     }
-      //let location = await Location.getCurrentPositionAsync({});
+    //let location = await Location.getCurrentPositionAsync({});
 
-      Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          distanceInterval: 2000,
-          timeInterval: 1000,
-        },
-        (loc) => setRegionAndMarker(loc)
-     );
+    Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        distanceInterval: 2000,
+        timeInterval: 1000,
+      },
+      (loc) => setRegionAndMarker(loc)
+    );
 
-     // setRegionAndMarker(location);
-     setOnCurrentLocation(true);
+    // setRegionAndMarker(location);
+    setOnCurrentLocation(true);
   }
 
   const getUbikeData = async () => {
@@ -118,7 +127,7 @@ export default function MapScreen() {
         style={{ width: "100%", height: "75%" }}
         onRegionChangeComplete={onRegionChangeComplete}
         customMapStyle={colorMode == "light" ? lightMap : darkMap}
-        >
+      >
         <Marker
           coordinate={marker.coord}
           title={marker.name}
@@ -137,8 +146,10 @@ export default function MapScreen() {
             description={site.ar}
           >
             <ActionButton zoomRatio={zoomRatio} site={site} />
+
           </Marker>
         ))}
+
       </MapView>
       {!onCurrentLocation && (
         <Box
@@ -182,39 +193,39 @@ export default function MapScreen() {
 
 const styles = StyleSheet.create({
   bar: {
-      height: "90%",
-      width: '90%',
-      borderRadius: 30,   
-      marginBottom: 6,
-      marginTop: 6,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 2,
-      shadowRadius: 1.5,
-      elevation: 4,
+    height: "90%",
+    width: '90%',
+    borderRadius: 30,
+    marginBottom: 6,
+    marginTop: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 2,
+    shadowRadius: 1.5,
+    elevation: 4,
   },
   searchtext: {
-      marginLeft: 15,
-      marginTop: 0,
-      fontSize: 15,
+    marginLeft: 15,
+    marginTop: 0,
+    fontSize: 15,
   },
   tiptext: {
-      marginLeft: 0,
-      marginTop: 17,
-      fontSize: 13,
-      color: "#B76E18",
+    marginLeft: 0,
+    marginTop: 17,
+    fontSize: 13,
+    color: "#B76E18",
   },
   loginAction: {
-      height: 47,
-      width: '80%',
-      backgroundColor: '#F29D38',
-      borderRadius: 50,
-      marginBottom: 13,
-      marginTop: 6,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 2,
-      shadowRadius: 1.5,
-      elevation: 4,
+    height: 47,
+    width: '80%',
+    backgroundColor: '#F29D38',
+    borderRadius: 50,
+    marginBottom: 13,
+    marginTop: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 2,
+    shadowRadius: 1.5,
+    elevation: 4,
   }
 })

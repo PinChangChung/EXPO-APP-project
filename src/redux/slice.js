@@ -10,7 +10,8 @@ const initialState = {
     login: {
         hasLogin: false,
     },
-    colorMode: "light"
+    colorMode: "light",
+    showActionSheet: false
 };
 
 const accountSlice = createSlice({
@@ -29,13 +30,17 @@ const accountSlice = createSlice({
         toggleColorMode: (state) => {
             state.colorMode = state.colorMode === "light" ? "dark" : "light";
         },
+        toggleActionSheet: (state) => {
+            state.showActionSheet = state.showActionSheet === true ? false : true;
+        },
     },
 });
 
 export const selectGeneral = (state) => state.account.general;
 export const selectHasLogin = (state) => state.account.login.hasLogin;
 export const selectColorMode = (state) => state.account.colorMode;
+export const selectShowActionSheet = (state) => state.account.showActionSheet;
 
-export const { setAccountInfo, login, logout, toggleColorMode } = accountSlice.actions;
+export const { setAccountInfo, login, logout, toggleColorMode, toggleActionSheet } = accountSlice.actions;
 
 export default accountSlice.reducer;

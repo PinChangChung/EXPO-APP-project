@@ -10,6 +10,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
 import ActionButton from '../components/ActionButton';
 
+import ActionScreen from './ActionScreen';
+
+import {
+
+   Actionsheet,
+} from "@gluestack-ui/themed";
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useSelector } from "react-redux";
@@ -133,6 +140,16 @@ export default function MapScreen() {
       }
    })
 
+
+   const [showActionsheet, setShowActionsheet] = useState(false);
+   const [selectedMarker, setSelectedMarker] = useState([]);
+
+   const handleClose = (site) => {
+      setShowActionsheet(!showActionsheet);
+      setSelectedMarker(site);
+      // console.log(site);
+   }
+
    const colorMode = useSelector(selectColorMode);
    const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
    const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
@@ -184,11 +201,19 @@ export default function MapScreen() {
                   key={site.sno}
                   title={`${site.sna} ${site.sbi}/${site.bemp}`}
                   description={site.ar}
+                  onPress={() => handleClose(site)}
                >
                   <ActionButton zoomRatio={zoomRatio} site={site} />
+
                </Marker>
             ))}
+
          </MapView>
+
+         <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
+            <ActionScreen handleClose={handleClose} selectedMarker={selectedMarker} />
+         </Actionsheet>
+
          {!onCurrentLocation && (
             <Box
                bg="white"
