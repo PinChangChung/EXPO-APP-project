@@ -8,6 +8,7 @@ import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getUbikeInfo } from '../api';
+import { useUbikeInfo } from '../tanstack-query';
 import ActionButton from '../components/ActionButton';
 
 import ActionScreen from './ActionScreen';
@@ -32,6 +33,7 @@ export default function MapScreen() {
    const [ubike, setUbike] = useState([]);
    const [zoomRatio, setZoomRatio] = useState(1);
 
+   const { data, isSuccess } = useUbikeInfo();
    const [screenSites, setScreenSites] = useState([]);
 
    const [region, setRegion] = useState({
@@ -99,10 +101,10 @@ export default function MapScreen() {
       setOnCurrentLocation(true);
    }
 
-   const getUbikeData = async () => {
-      const ubikeData = await getUbikeInfo();
-      setUbike(ubikeData);
-   };
+   // const getUbikeData = async () => {
+   //    const ubikeData = await getUbikeInfo();
+   //    setUbike(ubikeData);
+   // };
 
    // const distanceMinSite = () => {
 
@@ -119,16 +121,15 @@ export default function MapScreen() {
 
    useEffect(() => {
       getLocation();
-      getUbikeData();
    }, []);
 
    // useEffect(() => {
    //    getLocation();
    // }, [ubike]);
 
-   const screenSite = ubike.filter((site) => {
-      if (Math.abs(site.lat - region.latitude) < 0.005 &&
-         Math.abs(site.lng - region.longitude) < 0.005) {
+   const screenSite = isSuccess && data.filter((site) => {
+      if (Math.abs(site.latitude - region.latitude) < 0.005 &&
+         Math.abs(site.longitude - region.longitude) < 0.005) {
          return site;
       }
    })
@@ -195,11 +196,11 @@ export default function MapScreen() {
             {(zoomRatio > 0.14) && screenSites.map((site) => (
                <Marker
                   coordinate={{
-                     latitude: Number(site.lat),
-                     longitude: Number(site.lng),
+                     latitude: site.latitude,
+                     longitude: site.longitude,
                   }}
                   key={site.sno}
-                  title={`${site.sna} ${site.sbi}/${site.bemp}`}
+                  title={`${site.sna} ${site.available_rent_bikes}/${site.available_return_bikes}`}
                   description={site.ar}
                   onPress={() => handleClose(site)}
                >

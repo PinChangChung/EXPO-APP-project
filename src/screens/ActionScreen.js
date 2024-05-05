@@ -15,7 +15,7 @@ import { Dimensions } from "react-native";
 
 
 const ActionScreen = ({ handleClose, selectedMarker }) => {
-  const { sna, sbi, sarea, mday, lat, lng, ar, bemp } = selectedMarker ? selectedMarker : 0;
+  const { sna, available_rent_bikes, sarea, updateTime, latitude, longitude, ar, available_return_bikes } = selectedMarker ? selectedMarker : 0;
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
     backgroundGradientFromOpacity: 0,
@@ -27,23 +27,23 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
   };
   const screenWidth = Dimensions.get("window").width;
 
-  const data = [
-    {
-      name: "可還",
-      population: bemp,
-      color: "#ff6c00",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15,
-    },
-    {
-      name: "可借",
-      population: sbi,
-      color: "#fbd203",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15,
-    },
+  // const data = [
+  //   {
+  //     name: "可還",
+  //     population: bemp,
+  //     color: "#ff6c00",
+  //     legendFontColor: "#7F7F7F",
+  //     legendFontSize: 15,
+  //   },
+  //   {
+  //     name: "可借",
+  //     population: sbi,
+  //     color: "#fbd203",
+  //     legendFontColor: "#7F7F7F",
+  //     legendFontSize: 15,
+  //   },
 
-  ];
+  // ];
   const getTime = (m) => {
     const mday = String(m);
     const year = mday.slice(0, 4);
@@ -52,7 +52,7 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
     const hour = Number(mday.slice(11, 13));
     const min = Number(mday.slice(14, 16));
     const sec = Number(mday.slice(17));
-    const time = `${year}/${month}/${date} ${hour}:${min}:${sec}`;
+    const time = `${year}/${month}/${date}   ${hour}:${min}:${sec}`;
     return time;
   };
 
@@ -76,15 +76,15 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
               </Text>
               <Text mt={2}>
                 <Text fontWeight={"bold"}>經度/緯度：</Text>
-                {Number(lng).toFixed(2)}/{Number(lat).toFixed(2)}
+                {Number(longitude).toFixed(2)} / {Number(latitude).toFixed(2)}
               </Text>
               <Text mt={2}>
                 <Text fontWeight={"bold"}>更新時間：</Text>
-                {getTime(mday)}
+                {getTime(updateTime)}
               </Text>
               <Text mt={2}>
                 <Text fontWeight={"bold"}>可借/可還：</Text>
-                {sbi}/{bemp}
+                {available_rent_bikes}/{available_return_bikes}
               </Text>
             </VStack>
 

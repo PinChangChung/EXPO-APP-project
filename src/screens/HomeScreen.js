@@ -13,8 +13,8 @@ import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getUbikeInfo } from '../api';
-import ActionButton from '../components/ActionButton';
+
+import { useUbikeInfo } from '../tanstack-query';
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
@@ -25,6 +25,7 @@ import darkMap from "../mapStyle_json/darkMode.json"
 const HomeScreen = () => {
   const { navigate } = useNavigation();
 
+  const { data, isSuccess } = useUbikeInfo();
   const [nearpot, setNearpot] = useState([]);
 
 
@@ -103,31 +104,25 @@ const HomeScreen = () => {
     setOnCurrentLocation(true);
   }
 
-  const getUbikeData = async () => {
-    const ubikeData = await getUbikeInfo();
-    setUbike(ubikeData);
-
-  };
 
   useEffect(() => {
     setNearpot(distanceMinSite);
   }, [marker]);
 
-  const distanceMinSite = ubike.filter((site) => {
-    if (Math.abs(site.lat - region.latitude) < 0.0005 &&
-      Math.abs(site.lng - region.longitude) < 0.0005) {
+  const distanceMinSite = isSuccess && data.filter((site) => {
+    if (Math.abs(site.latitude - region.latitude) < 0.0005 &&
+      Math.abs(site.longitude - region.longitude) < 0.0005) {
       return site;
     }
   })
 
   useEffect(() => {
     getLocation();
-    getUbikeData();
   }, []);
 
-  const screenSite = ubike.filter((site) => {
-    if (Math.abs(site.lat - region.latitude) < 0.0025 &&
-      Math.abs(site.lng - region.longitude) < 0.0025) {
+  const screenSite = isSuccess && data.filter((site) => {
+    if (Math.abs(site.latitude - region.latitude) < 0.0025 &&
+      Math.abs(site.longitude - region.longitude) < 0.0025) {
       return site;
     }
   })
@@ -147,8 +142,8 @@ const HomeScreen = () => {
                 <Center h={"85%"}>
                   <VStack mt={20}>
                     <HStack mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
-                      <Text paddingHorizontal={15} fontSize={18} color={textMode}>
-                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{nearpot.length == 0 ? "附近沒有站點" : nearpot.map((site) => {
+                      <Text paddingHorizontal={15} fontSize={18} color={textMode} textAlign="center">
+                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{isSuccess && nearpot.length == 0 ? "周遭50公尺內暫無站點" : nearpot.map((site) => {
                           return site.sna
                         })}</Text>
                       </Text>
@@ -167,14 +162,14 @@ const HomeScreen = () => {
                             >
                               <Icon name={"map-marker"} size={60} color="#B12A5B" />
                             </Marker>
-                            {(zoomRatio > 0.14) && screenSites.map((site) => (
+                            {(zoomRatio > 0.14) && isSuccess && screenSites.map((site) => (
                               <Marker
                                 coordinate={{
-                                  latitude: Number(site.lat),
-                                  longitude: Number(site.lng),
+                                  latitude: site.latitude,
+                                  longitude: site.longitude,
                                 }}
                                 key={site.sno}
-                                title={`${site.sna} ${site.sbi}/${site.bemp}`}
+                                title={`${site.sna} ${site.available_rent_bikes}/${site.available_return_bikes}`}
                                 description={site.ar}
                               >
                                 <Center
@@ -193,13 +188,13 @@ const HomeScreen = () => {
                       </Box>
                       <VStack ml={20}>
                         <Text color={textMode}>
-                          空柱：{nearpot.length == 0 ? "---" : nearpot.map((site) => {
-                            return site.bemp
+                          空柱：{isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
+                            return site.available_return_bikes
                           })}
                         </Text>
                         <Text color={textMode}>
-                          可借車輛：{nearpot.length == 0 ? "---" : nearpot.map((site) => {
-                            return site.sbi
+                          可借車輛：{isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
+                            return site.available_rent_bikes
                           })}
                         </Text>
                       </VStack>
