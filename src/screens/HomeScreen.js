@@ -1,6 +1,6 @@
 import React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, Pressable } from "react-native";
-import { Center, Box, VStack, HStack, Text, Image } from "@gluestack-ui/themed";
+import { ScrollView, StyleSheet, TouchableOpacity, RefreshControl } from "react-native";
+import { Center, Box, VStack, HStack, Text } from "@gluestack-ui/themed";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -8,10 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { Platform } from "react-native";
 import * as Location from 'expo-location';
-import * as Device from "expo-device";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useUbikeInfo } from '../tanstack-query';
@@ -35,6 +32,13 @@ const HomeScreen = () => {
   const [zoomRatio, setZoomRatio] = useState(1);
 
   const [screenSites, setScreenSites] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getLocation();
+    setRefreshing(false);
+  }, []);
 
 
   //setToggleMap = () => toggleMap = !toggleMap;
@@ -133,7 +137,7 @@ const HomeScreen = () => {
 
 
   return (
-    <ScrollView style={{ flex: 1, height: "100%" }} >
+    <ScrollView style={{ flex: 1, height: "100%" }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
       <Center bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <VStack>
           <HStack>
@@ -153,6 +157,7 @@ const HomeScreen = () => {
                         <Box flex={1}>
                           <MapView
                             initialRegion={region}
+                            region={region}
                             style={{ height: "100%", width: "100%" }}
                             onRegionChangeComplete={onRegionChangeComplete}
                             customMapStyle={colorMode == "light" ? lightMap : darkMap}
