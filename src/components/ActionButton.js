@@ -22,7 +22,6 @@ export default ({ zoomRatio, site }) => {
 
   return (
     <>
-
       <Center
         bg="white"
         borderRadius={60}
@@ -32,9 +31,6 @@ export default ({ zoomRatio, site }) => {
       >
         <Icon name={"bicycle"} size={30 * zoomRatio} color="#F29D38" />
       </Center>
-
-
-
     </>
   );
 };

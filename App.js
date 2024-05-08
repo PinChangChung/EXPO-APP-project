@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Navigation from "./src/navigation";
+import Loading from "./src/screens/Loading";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 
@@ -16,7 +16,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <GluestackUIProvider config={config}>
-            <Navigation />
+            <Loading />
           </GluestackUIProvider>
         </Provider>
       </QueryClientProvider>
