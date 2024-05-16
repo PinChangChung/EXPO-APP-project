@@ -12,17 +12,21 @@ import * as Location from 'expo-location';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useUbikeInfo } from '../tanstack-query';
+import { useWeatherInfo } from '../tanstack-query';
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
 
 import lightMap from "../mapStyle_json/lightMode.json"
 import darkMap from "../mapStyle_json/darkMode.json"
+import weather from "../json/weather.json"
+
 
 const HomeScreen = () => {
   const { navigate } = useNavigation();
 
   const { data, isSuccess } = useUbikeInfo();
+  const { wdata, wisSuccess } = useWeatherInfo();
   const [nearpot, setNearpot] = useState([]);
 
 
@@ -57,6 +61,8 @@ const HomeScreen = () => {
       latitude: 25.024624,
     }
   });
+  const [weather, setWeather] = useState([]);
+
 
   const setRegionAndMarker = (location) => {
     setRegion({
@@ -72,6 +78,7 @@ const HomeScreen = () => {
       },
     });
     setScreenSites(screenSite);
+    setWeather(wdata);
   };
 
   const onRegionChangeComplete = (rgn) => {
@@ -111,12 +118,22 @@ const HomeScreen = () => {
 
   useEffect(() => {
     setNearpot(distanceMinSite);
+    setWeather(wdata);
   }, [marker]);
 
   const distanceMinSite = isSuccess && data.filter((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.0005 &&
       Math.abs(site.longitude - region.longitude) < 0.0005) {
       return site;
+    }
+  })
+
+
+
+  const distanceweatherSite = isSuccess && data.filter((wea) => {
+    if (Math.abs(wea.latitude - region.latitude) < 0.0005 &&
+      Math.abs(wea.longitude - region.longitude) < 0.0005) {
+      return wea;
     }
   })
 
@@ -219,7 +236,9 @@ const HomeScreen = () => {
                   </HStack>
                   <VStack>
                     <Text fontWeight="bold" fontSize={20} pb={5} color={textMode}>
-                      大安區
+                      {isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
+                        return site.sarea
+                      })}
                     </Text>
                     <Text pb={2} color={textMode}>
                       晴時有雲
