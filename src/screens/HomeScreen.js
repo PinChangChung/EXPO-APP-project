@@ -12,21 +12,23 @@ import * as Location from 'expo-location';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useUbikeInfo } from '../tanstack-query';
-import { useWeatherInfo } from '../tanstack-query';
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
 
 import lightMap from "../mapStyle_json/lightMode.json"
 import darkMap from "../mapStyle_json/darkMode.json"
-import weather from "../json/weather.json"
 
+import { Dimensions } from 'react-native';
+
+import WeatherSection from "../components/WeatherSection";
 
 const HomeScreen = () => {
   const { navigate } = useNavigation();
 
+  const height = (Dimensions.get('window').height);
+
   const { data, isSuccess } = useUbikeInfo();
-  const { wdata, wisSuccess } = useWeatherInfo();
   const [nearpot, setNearpot] = useState([]);
 
 
@@ -61,7 +63,6 @@ const HomeScreen = () => {
       latitude: 25.024624,
     }
   });
-  const [weather, setWeather] = useState([]);
 
 
   const setRegionAndMarker = (location) => {
@@ -78,7 +79,6 @@ const HomeScreen = () => {
       },
     });
     setScreenSites(screenSite);
-    setWeather(wdata);
   };
 
   const onRegionChangeComplete = (rgn) => {
@@ -115,11 +115,16 @@ const HomeScreen = () => {
     setOnCurrentLocation(true);
   }
 
+  if (data) {
+    useEffect(() => {
+      setNearpot(distanceMinSite);
+    }, [marker]);
 
-  useEffect(() => {
-    setNearpot(distanceMinSite);
-    setWeather(wdata);
-  }, [marker]);
+    useEffect(() => {
+      getLocation();
+      console.log(height);
+    }, []);
+  }
 
   const distanceMinSite = isSuccess && data.filter((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.0005 &&
@@ -127,19 +132,6 @@ const HomeScreen = () => {
       return site;
     }
   })
-
-
-
-  const distanceweatherSite = isSuccess && data.filter((wea) => {
-    if (Math.abs(wea.latitude - region.latitude) < 0.0005 &&
-      Math.abs(wea.longitude - region.longitude) < 0.0005) {
-      return wea;
-    }
-  })
-
-  useEffect(() => {
-    getLocation();
-  }, []);
 
   const screenSite = isSuccess && data.filter((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.0025 &&
@@ -152,10 +144,9 @@ const HomeScreen = () => {
   const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
   const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
 
-
   return (
-    <ScrollView style={{ flex: 1, height: "100%" }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
-      <Center bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.contentHeight} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
+      <Center flex={1} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <VStack>
           <HStack>
             <Center w={"100%"}>
@@ -227,36 +218,9 @@ const HomeScreen = () => {
               </Box>
             </Center>
           </HStack>
-          <HStack>
-            <Center w={"100%"} mt={10}>
-              <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
-                <HStack h={"100%"} justifyContent="center" alignItems="center">
-                  <HStack mr={25} h={70} justifyContent="center" alignItems="center">
-                    <MaterialCommunityIcons name="weather-partly-cloudy" size={70} color={"#F29D38"} />
-                  </HStack>
-                  <VStack>
-                    <Text fontWeight="bold" fontSize={20} pb={5} color={textMode}>
-                      {isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
-                        return site.sarea
-                      })}
-                    </Text>
-                    <Text pb={2} color={textMode}>
-                      晴時有雲
-                    </Text>
-                    <Text pb={10} color={textMode}>
-                      30°C
-                    </Text>
-                    <HStack>
-                      <MaterialCommunityIcons name="weather-pouring" size={22} color={"#F29D38"} />
-                      <Text pl={3} pb={5} color={textMode}>
-                        降雨機率：2%
-                      </Text>
-                    </HStack>
-                  </VStack>
-                </HStack>
-              </Box>
-            </Center>
-          </HStack>
+
+          <WeatherSection/>
+
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={22}>
             <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
               <TouchableOpacity onPress={() => navigate("Near")}>
@@ -314,6 +278,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowRadius: 1.5,
     elevation: 4,
+  },
+  contentHeight: {
+    flex: 1,
+    height: "100%"
   }
 })
 
