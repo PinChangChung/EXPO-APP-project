@@ -115,16 +115,16 @@ const HomeScreen = () => {
     setOnCurrentLocation(true);
   }
 
-  if (data) {
-    useEffect(() => {
-      setNearpot(distanceMinSite);
-    }, [marker]);
+  // useEffect(() => {
+  //   setNearpot(distanceMinSite);
+  // }, [marker]);
 
-    useEffect(() => {
-      getLocation();
-      console.log(height);
-    }, []);
-  }
+  useEffect(() => {
+    getLocation();
+    setNearpot(distanceMinSite);
+    console.log(height);
+  }, []);
+
 
   const distanceMinSite = isSuccess && data.filter((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.0005 &&
@@ -145,8 +145,8 @@ const HomeScreen = () => {
   const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
 
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.contentHeight} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
-      <Center flex={1} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+    <ScrollView style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
+      <Center flex={1} pt={20} pb={50} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <VStack>
           <HStack>
             <Center w={"100%"}>
@@ -219,7 +219,7 @@ const HomeScreen = () => {
             </Center>
           </HStack>
 
-          <WeatherSection/>
+          <WeatherSection position={marker.coord} />
 
           <HStack w={"100%"} h={125} space="lg" justifyContent="center" marginVertical={22}>
             <Box w={"36%"} h={"100%"} bg={blockMode} borderRadius={20} style={styles.shadow}>
@@ -278,10 +278,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowRadius: 1.5,
     elevation: 4,
-  },
-  contentHeight: {
-    flex: 1,
-    height: "100%"
   }
 })
 

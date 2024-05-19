@@ -109,6 +109,7 @@ const MyTabs = () => {
   const colorMode = useSelector(selectColorMode);
   const tabMode = colorMode == "light" ? "#fff" : "#474747";
 
+
   return (
     <Tab.Navigator
       initialRouteName="TabHomeStack"
@@ -116,7 +117,13 @@ const MyTabs = () => {
         tabBarInactiveTintColor: colors.light400,
         tabBarActiveTintColor: colors.primary700,
         tabBarStyle: {
-          backgroundColor: tabMode
+          backgroundColor: tabMode,
+          height: 65,
+        },
+        tabBarLabelStyle: {
+          fontSize: 18,
+          marginTop: -5,
+          marginBottom: 5
         }
       }}
     >
@@ -126,12 +133,8 @@ const MyTabs = () => {
         options={{
           headerShown: false,
           title: "首頁",
-          headerTitleStyle: {
-            fontWeight: '400',
-            fontSize: 80
-          },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={30} />
+            <MaterialCommunityIcons name="home" color={color} size={35} />
           ),
         }}
       />
@@ -141,12 +144,8 @@ const MyTabs = () => {
         options={{
           headerShown: false,
           title: "帳戶",
-          headerTitleStyle: {
-            fontWeight: '400',
-            fontSize: 50
-          },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={30} />
+            <MaterialCommunityIcons name="account" color={color} size={35} />
           ),
         }}
       />

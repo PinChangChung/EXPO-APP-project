@@ -27,23 +27,24 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
   };
   const screenWidth = Dimensions.get("window").width;
 
-  // const data = [
-  //   {
-  //     name: "可還",
-  //     population: bemp,
-  //     color: "#ff6c00",
-  //     legendFontColor: "#7F7F7F",
-  //     legendFontSize: 15,
-  //   },
-  //   {
-  //     name: "可借",
-  //     population: sbi,
-  //     color: "#fbd203",
-  //     legendFontColor: "#7F7F7F",
-  //     legendFontSize: 15,
-  //   },
+  const data = selectedMarker ?
+    [
+      {
+        name: "可還",
+        population: available_rent_bikes,
+        color: "#ff6c00",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15,
+      },
+      {
+        name: "可借",
+        population: available_return_bikes,
+        color: "#fbd203",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15,
+      },
+    ] : 0;
 
-  // ];
   const getTime = (m) => {
     const mday = String(m);
     const year = mday.slice(0, 4);
@@ -59,11 +60,11 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
   return (
     <>
       <ActionsheetBackdrop />
-      <ActionsheetContent h={30} zIndex={999}>
+      <ActionsheetContent h={30} zIndex={999} >
         <ActionsheetDragIndicatorWrapper>
           <ActionsheetDragIndicator />
         </ActionsheetDragIndicatorWrapper>
-        <VStack h="50%" w="100%" bg="$blueGray50" borderRadius={20}>
+        <VStack h={450} w="100%" bg="$blueGray50" borderRadius={20}>
 
           <Text size="3xl" mt="$5" textAlign="center">
             {sna} 站
@@ -87,6 +88,20 @@ const ActionScreen = ({ handleClose, selectedMarker }) => {
                 {available_rent_bikes}/{available_return_bikes}
               </Text>
             </VStack>
+            {
+              selectedMarker &&
+              <PieChart
+                data={data}
+                width={screenWidth}
+                height={200}
+                chartConfig={chartConfig}
+                accessor={"population"}
+                backgroundColor={"transparent"}
+                paddingLeft={0}
+                center={[10, 0]}
+                absolute
+              />
+            }
 
           </VStack>
         </VStack>

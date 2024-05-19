@@ -4,16 +4,16 @@ import { getWeatherInfo } from "../api";
 
 export const useUbikeInfo = () => {
   const { data, isLoading, isSuccess } = useQuery({
-    queryKey: [],
+    queryKey: ["TODO", 1],
     queryFn: getUbikeInfo,
   });
   return { data, isLoading, isSuccess };
 };
 
 export const useWeatherInfo = () => {
-  const { data, isLoading, isSuccess } = useQuery({
-    queryKey: [],
+  const { data, isLoading, isSuccess, isError } = useQuery({
+    queryKey: ["TODO", 2],
     queryFn: getWeatherInfo,
   });
-  return { data, isLoading, isSuccess };
+  return { data, isLoading, isSuccess, isError };
 };

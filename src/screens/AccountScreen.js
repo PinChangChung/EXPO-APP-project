@@ -24,9 +24,8 @@ const AccountScreen = () => {
   const dividerMode =  colorMode == "light" ? "#F29D38" : "#E2DDDD";
 
   return (
-
-      <ScrollView style={{ flex: 1, height: "100%" }}>
-        <Box bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.contentHeight}>
+        <Box bg={colorMode == "light" ? "#FFE27B" : "#2E251B"} pt={60} pb={100}>
           <VStack>
             <Box h={120} justifyContent='center' alignItems='center' mt={30}>
               <MaterialCommunityIcons name="account-circle" size={80} />
@@ -160,6 +159,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowRadius: 1.5,
     elevation: 4,
+  },
+  contentHeight: {
+    flex: 1,
+    height: "100%"
   }
 
 })

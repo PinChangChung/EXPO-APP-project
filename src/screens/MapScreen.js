@@ -13,10 +13,7 @@ import ActionButton from '../components/ActionButton';
 
 import ActionScreen from './ActionScreen';
 
-import {
-
-   Actionsheet,
-} from "@gluestack-ui/themed";
+import { Actionsheet } from "@gluestack-ui/themed";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -101,24 +98,6 @@ export default function MapScreen() {
       setOnCurrentLocation(true);
    }
 
-   // const getUbikeData = async () => {
-   //    const ubikeData = await getUbikeInfo();
-   //    setUbike(ubikeData);
-   // };
-
-   // const distanceMinSite = () => {
-
-   //    for (let index = 0; index < screenSites.length; index++) {
-   //       if (index + 1 < screenSites.length) {
-   //          if ((((screenSites[index].lat - region.latitude) ^ 2 + (screenSites[index].lng - region.longitude) ^ 2) ^ 0.5) <
-   //             (((screenSites[index + 1].lat - region.latitude) ^ 2 + (screenSites[index + 1].lng - region.longitude) ^ 2) ^ 0.5)) {
-   //             setScreenSites(screenSites[index].push("min"))
-   //          }
-   //       }
-   //    }
-   // }
-   // let nearest = screenSites.indexOf("min") == null ? null : screenSites.indexOf("min");
-
    useEffect(() => {
       getLocation();
    }, []);
@@ -135,11 +114,30 @@ export default function MapScreen() {
    })
 
    const [searchText, setSearchText] = useState("")
-   const search = () => ubike.filter((site) => {
-      if (site.sna == searchText) {
-         console.log(site);
+   const [queryStation, setQueryStation] = useState([]);
+   const search = () => {
+      if (searchText) {
+         const filtered = data.find((site) => {
+            if (site.sna.toLowerCase().includes(searchText)) return site;
+         })
+         setQueryStation(filtered);
+         setQueryStationRegion({
+            ...queryStationRegion,
+            longitude: queryStation.longitude,
+            latitude: queryStation.latitude,
+         })
+         //console.log(searchText);
+         console.log(queryStation);
       }
+   }
+   const [queryStationRegion, setQueryStationRegion] = useState({
+      longitude: 0,
+      latitude: 0,
+      longitudeDelta: 0.002,
+      latitudeDelta: 0.004,
    })
+
+
 
 
    const [showActionsheet, setShowActionsheet] = useState(false);
@@ -187,6 +185,7 @@ export default function MapScreen() {
             style={{ height: "85%", width: "100%" }}
             onRegionChangeComplete={onRegionChangeComplete}
             customMapStyle={colorMode == "light" ? lightMap : darkMap}
+            region={queryStation.length == 0 ? region : queryStationRegion}
          >
             <Marker
                coordinate={marker.coord}
@@ -205,13 +204,27 @@ export default function MapScreen() {
                   onPress={() => handleClose(site)}
                >
                   <ActionButton zoomRatio={zoomRatio} site={site} />
-
                </Marker>
             ))}
 
+            {
+               queryStation.length != 0 &&
+               <Marker
+                  coordinate={{
+                     latitude: queryStation.latitude,
+                     longitude: queryStation.longitude,
+                  }}
+                  key={queryStation.sno}
+                  title={`${queryStation.sna} ${queryStation.available_rent_bikes}/${queryStation.available_return_bikes}`}
+                  description={queryStation.ar}
+                  onPress={() => handleClose(queryStation)}
+               >
+                  <ActionButton zoomRatio={zoomRatio} site={queryStation} />
+               </Marker>
+            }
          </MapView>
 
-         <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
+         <Actionsheet isOpen={showActionsheet} onClose={handleClose} closeOnOverlayClick={true}>
             <ActionScreen handleClose={handleClose} selectedMarker={selectedMarker} />
          </Actionsheet>
 

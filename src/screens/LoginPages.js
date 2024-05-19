@@ -44,21 +44,21 @@ const LoginPages = () => {
                 options={
                     ({ navigation }) => (
                         {
-                            title: "   註冊",
-                            headerShown: "true",
+                            title: "",
+                            headerShown: false,
                             headerTintColor: textMode,
                             headerTitleStyle: {
                                 fontSize: 15
                             },
-                            headerLeft: () => (
-                                <Pressable onPress={() => navigation.goBack()}>
-                                    <MaterialCommunityIcons
-                                        name={'chevron-left'}
-                                        size={30}
-                                        color={'#F29D38'}
-                                    />
-                                </Pressable>
-                            )
+                            // headerLeft: () => (
+                            //     <Pressable onPress={() => navigation.goBack()}>
+                            //         <MaterialCommunityIcons
+                            //             name={'chevron-left'}
+                            //             size={30}
+                            //             color={'#F29D38'}
+                            //         />
+                            //     </Pressable>
+                            // )
                         }
                     )
                 }

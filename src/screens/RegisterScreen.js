@@ -22,8 +22,11 @@ import { login } from "../redux/slice"
 import { useDispatch, useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
 
+import { useNavigation } from "@react-navigation/native";
 
 const RegisterScreen = () => {
+
+  const { navigate } = useNavigation();
 
   const general = useSelector(selectGeneral);
   const dispatch = useDispatch();
@@ -65,14 +68,14 @@ const RegisterScreen = () => {
   const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
 
   return (
-    <ScrollView style={{ flex: 1, height: "100%" }} >
-      <VStack w={"100%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
+    <ScrollView style={{ flex: 1 }} >
+      <VStack pt={60} pb={50} w={"100%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <Box h={120} justifyContent='center' alignItems='center' mt={30}>
           <MaterialCommunityIcons name="account-circle" size={80} />
         </Box>
 
         <Center>
-          <Box w={"90%"}>
+          <Box w={"90%"} pb={100}>
             <FormControl mb={5} isRequired w={"100%"}>
               <FormControlLabel ml={10}>
                 <FormControlLabelText color={textMode}>帳號名稱</FormControlLabelText>
@@ -163,13 +166,21 @@ const RegisterScreen = () => {
               </FormControlError>
             </FormControl>
 
-            <Center mb={80}>
+            <Center>
               <TouchableOpacity style={styles.loginAction} onPress={() => dispatch(login())}>
                 <Center className="rounded-full">
                   <Box h={"100%"} justifyContent="center" >
                     <Text color='#fff'>註冊</Text>
                   </Box>
                 </Center>
+              </TouchableOpacity>
+            </Center>
+
+            <Center>
+              <TouchableOpacity onPress={() => navigate("LoginScreen")}>
+                <Text style={styles.tiptext}>
+                  已有帳號？ 登入
+                </Text>
               </TouchableOpacity>
             </Center>
 
@@ -208,6 +219,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 2,
     shadowRadius: 1.5,
     elevation: 4,
+  },
+  tiptext: {
+    marginLeft: 0,
+    marginTop: 17,
+    fontSize: 20,
+    color: "#B76E18",
   }
 })
 

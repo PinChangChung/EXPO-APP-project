@@ -52,6 +52,7 @@ const LoginScreen = () => {
                                             placeholder="密碼"
                                             placeholderTextColor={textMode}
                                             style={styles.searchtext}
+                                            type='password'
                                             w={270}
                                         />
                                     </Box>
@@ -60,7 +61,7 @@ const LoginScreen = () => {
                             <TouchableOpacity style={styles.loginAction} onPress={() => dispatch(login())}>
                                 <Center className="rounded-full">
                                     <Box h={"100%"} justifyContent="center" >
-                                        <Text color='#fff'>登入</Text>
+                                        <Text color='#fff' fontSize={20}>登入</Text>
                                     </Box>
                                 </Center>
                             </TouchableOpacity>
@@ -86,7 +87,7 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     input: {
-        height: 47,
+        height: 55,
         width: '80%',
         borderRadius: 50,
         marginBottom: 6,
@@ -106,16 +107,16 @@ const styles = StyleSheet.create({
     tiptext: {
         marginLeft: 0,
         marginTop: 17,
-        fontSize: 13,
+        fontSize: 20,
         color: "#B76E18",
     },
     loginAction: {
-        height: 47,
+        height: 55,
         width: '80%',
         backgroundColor: '#F29D38',
         borderRadius: 50,
         marginBottom: 13,
-        marginTop: 6,
+        marginTop: 20,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 2,
