@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 
 export const getUbikeInfo = async () => {
 
@@ -8,12 +9,14 @@ export const getUbikeInfo = async () => {
   return data;
 };
 
-export const getWeatherInfo = async () => {
-  const key = "CWA-A453F47E-8E1C-404D-A354-D4F4F7B1A7FE";
+// export const getWeatherInfo = async () => {
+//   const key = "CWA-A453F47E-8E1C-404D-A354-D4F4F7B1A7FE";
 
-  const [weather] = await axios.get(
-    `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-061?Authorization=${key}&format=JSON&elementName=WeatherDescription&sort=time`
-  );
-  const data = weather.records.locations[0];
-  return data;
-};
+//   const weather = await axios.get(
+//     `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-061?Authorization=${key}&format=JSON&elementName=WeatherDescription&sort=time`
+//   );
+//   //JSON.stringify(weather);
+//   const data = weather.request._response;
+//   //console.log(data);
+//   return data;
+// };

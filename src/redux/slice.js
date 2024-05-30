@@ -11,7 +11,7 @@ const initialState = {
         hasLogin: false,
     },
     colorMode: "light",
-    showActionSheet: false
+    showActionSheet: false,
 };
 
 const accountSlice = createSlice({

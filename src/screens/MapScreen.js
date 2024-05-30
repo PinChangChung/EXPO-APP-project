@@ -27,7 +27,6 @@ import darkMap from "../mapStyle_json/darkMode.json"
 export default function MapScreen() {
    const [msg, setMsg] = useState("Waiting...");
    const [onCurrentLocation, setOnCurrentLocation] = useState(false);
-   const [ubike, setUbike] = useState([]);
    const [zoomRatio, setZoomRatio] = useState(1);
 
    const { data, isSuccess } = useUbikeInfo();
@@ -102,6 +101,13 @@ export default function MapScreen() {
       getLocation();
    }, []);
 
+   // const getMapLocation = setRegion({
+   //    ...region,
+   //    longitude: marker.coord.longitude,
+   //    latitude: marker.coord.latitude,
+   // });
+
+
    // useEffect(() => {
    //    getLocation();
    // }, [ubike]);
@@ -114,30 +120,48 @@ export default function MapScreen() {
    })
 
    const [searchText, setSearchText] = useState("")
-   const [queryStation, setQueryStation] = useState([]);
-   const search = () => {
-      if (searchText) {
-         const filtered = data.find((site) => {
-            if (site.sna.toLowerCase().includes(searchText)) return site;
-         })
-         setQueryStation(filtered);
-         setQueryStationRegion({
-            ...queryStationRegion,
-            longitude: queryStation.longitude,
-            latitude: queryStation.latitude,
-         })
-         //console.log(searchText);
-         console.log(queryStation);
-      }
-   }
-   const [queryStationRegion, setQueryStationRegion] = useState({
-      longitude: 0,
-      latitude: 0,
-      longitudeDelta: 0.002,
-      latitudeDelta: 0.004,
-   })
+   // const [queryStation, setQueryStation] = useState([]);
+   // const search = () => {
+   //    if (searchText) {
+   //       const filtered = data.find((site) => {
+   //          if (site.sna.toLowerCase().includes(searchText)) return site;
+   //       })
+   //       setQueryStation(filtered);
+   //       setQueryStationRegion({
+   //          longitude: filtered.longitude,
+   //          latitude: filtered.latitude,
+   //       })
+   //       setMapRegion({
+   //          longitude: queryStationRegion.longitude,
+   //          latitude: queryStationRegion.latitude,
+   //       })
+   //       //console.log(searchText);
+   //       console.log(queryStation);
+   //    }
+   //    if (!searchText) {
 
+   //       setQueryStation([]);
 
+   //       //console.log(searchText);
+   //       console.log(queryStation);
+   //    }
+   // }
+   // const [queryStationRegion, setQueryStationRegion] = useState({
+   //    longitude: 0,
+   //    latitude: 0,
+   //    longitudeDelta: 0.002,
+   //    latitudeDelta: 0.004,
+   // })
+   // const [mapRegion, setMapRegion] = useState({
+   //    longitude: 121.544637,
+   //    latitude: 25.024624,
+   // })
+   // const findMarkerPlace = () => {
+   //    setMapRegion({ 
+   //       longitude: marker.coord.longitude,
+   //       latitude: marker.coord.latitude
+   //    })
+   // }
 
 
    const [showActionsheet, setShowActionsheet] = useState(false);
@@ -171,7 +195,7 @@ export default function MapScreen() {
                         />
                      </Box>
                   </Box>
-                  <TouchableOpacity onPress={search}>
+                  <TouchableOpacity onPress={() => null}>
                      <Center h={"100%"} w={40} mr={10}>
                         <MaterialCommunityIcons name="magnify" size={38} color={'#F29D38'} />
                      </Center>
@@ -185,7 +209,7 @@ export default function MapScreen() {
             style={{ height: "85%", width: "100%" }}
             onRegionChangeComplete={onRegionChangeComplete}
             customMapStyle={colorMode == "light" ? lightMap : darkMap}
-            region={queryStation.length == 0 ? region : queryStationRegion}
+            region={region}
          >
             <Marker
                coordinate={marker.coord}
@@ -208,19 +232,19 @@ export default function MapScreen() {
             ))}
 
             {
-               queryStation.length != 0 &&
-               <Marker
-                  coordinate={{
-                     latitude: queryStation.latitude,
-                     longitude: queryStation.longitude,
-                  }}
-                  key={queryStation.sno}
-                  title={`${queryStation.sna} ${queryStation.available_rent_bikes}/${queryStation.available_return_bikes}`}
-                  description={queryStation.ar}
-                  onPress={() => handleClose(queryStation)}
-               >
-                  <ActionButton zoomRatio={zoomRatio} site={queryStation} />
-               </Marker>
+               // queryStation.length != 0 &&
+               // <Marker
+               //    coordinate={{
+               //       latitude: queryStation.latitude,
+               //       longitude: queryStation.longitude,
+               //    }}
+               //    key={queryStation.sno}
+               //    title={`${queryStation.sna} ${queryStation.available_rent_bikes}/${queryStation.available_return_bikes}`}
+               //    description={queryStation.ar}
+               //    onPress={() => handleClose(queryStation)}
+               // >
+               //    <ActionButton zoomRatio={zoomRatio} site={queryStation} />
+               // </Marker>
             }
          </MapView>
 
@@ -243,7 +267,7 @@ export default function MapScreen() {
                opacity={0.8}
             >
                <Center>
-                  <TouchableOpacity onPress={getLocation}>
+                  <TouchableOpacity onPress={() => null}>
                      <Ionicons name={"locate-outline"}
                         size={50}
                         color="#F29D38"

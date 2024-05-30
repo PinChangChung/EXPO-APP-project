@@ -10,10 +10,10 @@ export const useUbikeInfo = () => {
   return { data, isLoading, isSuccess };
 };
 
-export const useWeatherInfo = () => {
-  const { data, isLoading, isSuccess, isError } = useQuery({
-    queryKey: ["TODO", 2],
-    queryFn: getWeatherInfo,
-  });
-  return { data, isLoading, isSuccess, isError };
-};
+// export const useWeatherInfo = () => {
+//   const { data, isLoading, isSuccess, isError } = useQuery({
+//     queryKey: ["TODO", 2],
+//     queryFn: getWeatherInfo,
+//   });
+//   return { data, isLoading, isSuccess, isError };
+// };

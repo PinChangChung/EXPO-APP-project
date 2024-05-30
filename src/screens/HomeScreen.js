@@ -32,9 +32,8 @@ const HomeScreen = () => {
   const [nearpot, setNearpot] = useState([]);
 
 
-  const [msg, setMsg] = useState("Waiting...");
+  //const [msg, setMsg] = useState("Waiting...");
   const [onCurrentLocation, setOnCurrentLocation] = useState(false);
-  const [ubike, setUbike] = useState([]);
   const [zoomRatio, setZoomRatio] = useState(1);
 
   const [screenSites, setScreenSites] = useState([]);
@@ -98,7 +97,7 @@ const HomeScreen = () => {
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      setMsg('Permission to access location was denied');
+      //setMsg('Permission to access location was denied');
       return;
     }
     // let location = await Location.getCurrentPositionAsync({});
@@ -150,17 +149,19 @@ const HomeScreen = () => {
         <VStack>
           <HStack>
             <Center w={"100%"}>
-              <Box bg={blockMode} h={240} w={"90%"} borderRadius={17}>
+              <Box bg={blockMode} h={280} w={"90%"} borderRadius={17}>
                 <Center h={"85%"}>
                   <VStack mt={20}>
-                    <HStack mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
+                    <HStack paddingHorizontal={10} mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
                       <Text paddingHorizontal={15} fontSize={18} color={textMode} textAlign="center">
-                        離您最近的站點：<Text fontWeight="bold" fontSize={20} color={textMode}>{isSuccess && nearpot.length == 0 ? "周遭50公尺內暫無站點" : nearpot.map((site) => {
+                        離您最近的站點：{`\n`}
+                        <Text fontWeight="bold" fontSize={20} color={textMode}>{isSuccess && nearpot.length == 0 ? "周遭50公尺內暫無站點" : nearpot.map((site) => {
                           return site.sna
-                        })}</Text>
+                        })}
+                        </Text>
                       </Text>
                     </HStack>
-                    <HStack h={50} justifyContent="center" alignItems="center" mt={22}>
+                    <HStack h={50} justifyContent="center" alignItems="center" mt={40}>
                       <Box mt={5} bg="#D9D9D9" h={110} w={157}>
                         <Box flex={1}>
                           <MapView

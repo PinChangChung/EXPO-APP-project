@@ -11,9 +11,12 @@ import { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useWeatherInfo } from '../tanstack-query';
+import { getWeatherInfo } from "../api/testWeather"
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
+
+import test from "../mapStyle_json/test.json"
 
 import * as turf from '@turf/turf';
 
@@ -24,10 +27,67 @@ export default ({ position }) => {
     const textMode = colorMode == "light" ? "#000" : "#E2DDDD";
     const blockMode = colorMode == "light" ? "#FAFAFA" : "#474747";
 
-    const { data, isLoading, isSuccess, isError } = useWeatherInfo();
+    //const { data, isLoading, isSuccess, isError } = useWeatherInfo();
 
-    const weatherInfo = data?.records?.locations[0];
-    console.log(weatherInfo);
+
+    const [weatherData, setWeatherData] = useState({});
+    const getWeatherData = async () => {
+        const weatherdata = await getWeatherInfo();
+        //console.log(weatherdata);
+        const weatherParse = JSON.parse(weatherdata);
+        let findWeatherPoint = [];
+        findWeatherPoint = weatherParse?.records?.locations[0]?.location.find((loc) => {
+            if (loc.lat == nearest?.geometry?.coordinates[1] && loc.lon == nearest?.geometry?.coordinates[0]) {
+                //console.log(loc);
+                return loc;
+            }
+        })
+        setWeatherData(findWeatherPoint);
+        console.log(weatherData.weatherElement[0].time[0]);
+    }
+
+    // const findData = () => {
+    //     // if (isSuccess) console.log("api成功");
+    //     // if (!isError) console.log("api沒出錯");
+
+    //     try {
+    //         // const dataObject = JSON.parse(data); //因為在api使用JSON.stringify，在這邊又再用一次，所以要包兩層JSON.parse
+    //         // setWeatherData(dataObject);
+    //         //console.log(weatherData);
+    //         //console.log(dataObject.success)
+    //         //console.log(JSON.parse(dataObject));
+
+    //         //console.log(weatherData?.records?.locations[0]?.location);
+    //         // findWeatherPoint = weatherData?.records?.locations[0]?.location.find((loc) => {
+    //         //     if (loc.lat == nearest?.geometry?.coordinates[1] && loc.lon == nearest?.geometry?.coordinates[0]) {
+    //         //         //console.log(loc);
+    //         //         return loc;
+
+    //         //     }
+    //         // })
+    //         //console.log(findWeatherPoint.locationName);
+    //         //setWeatherScreenInfo(findWeatherPoint);
+    //         //console.log(weatherData);
+    //         //console.log(weatherScreenInfo);
+    //     }
+    //     catch (error) {
+    //         console.log('Error parsing JSON:', error, data);
+    //     }
+    // }
+    useEffect(() => {
+        getWeatherData();
+    }, [])
+    console.log("進入天氣區域");
+
+    // useEffect(() => {
+    //     findData()
+    // }, [data])
+
+    const [weatherScreenInfo, setWeatherScreenInfo] = useState({});
+
+
+    //console.log(data?.records?.locations[0]);
+
 
     var userpoint = [position.longitude, position.latitude];
     var targetPoint = turf.point(userpoint);
@@ -51,59 +111,133 @@ export default ({ position }) => {
     var nearest = turf.nearestPoint(targetPoint, points);
     //console.log(nearest);
 
-    const findWeatherPoint = weatherInfo?.location?.filter((loc, index) => {
-        if (loc[index] == nearest.properties.featureIndex) {
-            return loc;
+    const getWeatherDescription = () => {
+        try {
+            const weatherDescription = JSON.stringify(weatherData?.weatherElement[0]?.time[0]?.elementValue[0]?.value)
+            let check = false;
+            for (let i = 0; i < weatherDescription?.length && check == false; i++) {
+                if (weatherDescription[i] == "。") {
+                    const Description = weatherDescription?.slice(1, i);
+                    check = true;
+                    return Description;
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
-    })
+    }
 
-    //if (isSuccess) console.log(findWeatherPoint);
+    const getWeatherTempDescription = () => {
+        try {
+            const weatherDescription = JSON.stringify(weatherData?.weatherElement[0]?.time[0]?.elementValue[0]?.value)
+            let check = 1;
+            for (let i = 0; i < weatherDescription?.length && check <= 4; i++) {
+                if (weatherDescription[i] == "。") {
+                    check++;
+                    if (check == 4) {
+                        const Description = weatherDescription?.slice(i - 7, i);
+                        return Description;
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
+    const getWeatherRainDescription = () => {
+        try {
+            const weatherDescription = JSON.stringify(weatherData?.weatherElement[0]?.time[0]?.elementValue[0]?.value)
+            let check = 1;
+            for (let i = 0; i < weatherDescription?.length && check <= 3; i++) {
+                if (weatherDescription[i] == "。") {
+                    check++;
+                    if (check == 3) {
+                        const Description = weatherDescription?.slice(i - 8, i);
+                        return Description;
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const weatherIcon = () => {
+        let icon = "";
+        switch (getWeatherDescription()) {
+            case "陰":
+                icon = "weather-cloudy";
+                break;
+            case "午後短暫陣雨":
+                icon = "weather-partly-rainy";
+                break;
+            case "多雲":
+                icon = "cloud";
+                break;
+            case "晴":
+                icon = "weather-sunny";
+                break;
+            case "午後短暫雷陣雨":
+                icon = "weather-partly-lightning";
+                break;
+            case "短暫陣雨或雷雨":
+                icon = "weather-lightning-rainy";
+                break;
+
+            default:
+                icon = "help";
+                break;
+        }
+        return icon;
+    }
     return (
         <>
             {
-                isLoading || isError || !isSuccess ?
-                    <HStack>
-                        <Center w={"100%"} mt={10}>
-                            <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
-                                <HStack h={"100%"} justifyContent="center" alignItems="center">
-                                    <Center>
-                                        <Text>
-                                            天氣資訊載入中...
-                                        </Text>
-                                    </Center>
+                // false ?
+                //     <HStack>
+                //         <Center w={"100%"} mt={10}>
+                //             <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
+                //                 <HStack h={"100%"} justifyContent="center" alignItems="center">
+                //                     <Center>
+                //                         <Text color={textMode}>
+                //                             天氣資訊載入中...{`\n`}
+                //                             若無反應，請重新載入app
+                //                         </Text>
+                //                     </Center>
+                //                 </HStack>
+                //             </Box>
+                //         </Center>
+                //     </HStack>
+                //     :
+                <HStack>
+                    <Center w={"100%"} mt={10}>
+                        <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
+                            <HStack h={"100%"} justifyContent="center" alignItems="center">
+                                <HStack mr={25} h={70} justifyContent="center" alignItems="center">
+                                    <MaterialCommunityIcons name={weatherIcon()} size={70} color={"#F29D38"} />
                                 </HStack>
-                            </Box>
-                        </Center>
-                    </HStack> :
-                    <HStack>
-                        <Center w={"100%"} mt={10}>
-                            <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
-                                <HStack h={"100%"} justifyContent="center" alignItems="center">
-                                    <HStack mr={25} h={70} justifyContent="center" alignItems="center">
-                                        <MaterialCommunityIcons name="weather-partly-cloudy" size={70} color={"#F29D38"} />
+                                <VStack>
+                                    <Text fontWeight="bold" fontSize={20} pb={5} color={textMode}>
+                                        {weatherData?.locationName ? JSON.stringify(weatherData?.locationName) : "---"}
+                                    </Text>
+                                    <Text pb={2} color={textMode}>
+                                        {weatherData?.locationName ? getWeatherDescription() : "---"}
+                                    </Text>
+                                    <Text pb={10} color={textMode}> 
+                                        {weatherData?.locationName ? getWeatherTempDescription() : "---"}
+                                    </Text>
+                                    <HStack>
+                                        <MaterialCommunityIcons name="weather-pouring" size={22} color={"#F29D38"} />
+                                        <Text pl={10} pb={5} color={textMode}>
+                                            {weatherData?.locationName ? getWeatherRainDescription() : "---"}
+                                        </Text>
                                     </HStack>
-                                    <VStack>
-                                        <Text fontWeight="bold" fontSize={20} pb={5} color={textMode}>
-                                            大安區123456
-                                        </Text>
-                                        <Text pb={2} color={textMode}>
-                                            晴時有雲
-                                        </Text>
-                                        <Text pb={10} color={textMode}>
-                                            30°C
-                                        </Text>
-                                        <HStack>
-                                            <MaterialCommunityIcons name="weather-pouring" size={22} color={"#F29D38"} />
-                                            <Text pl={3} pb={5} color={textMode}>
-                                                降雨機率：5%
-                                            </Text>
-                                        </HStack>
-                                    </VStack>
-                                </HStack>
-                            </Box>
-                        </Center>
-                    </HStack>
+                                </VStack>
+                            </HStack>
+                        </Box>
+                    </Center>
+                </HStack>
             }
         </>
     );
