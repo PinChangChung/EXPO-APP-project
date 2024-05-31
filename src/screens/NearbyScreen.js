@@ -2,22 +2,17 @@ import { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { Platform } from "react-native";
-import { Box, Center, Pressable } from '@gluestack-ui/themed';
+import { Box, Center, Pressable, Text } from '@gluestack-ui/themed';
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getUbikeInfo } from '../api';
+import { useUbikeInfo } from '../tanstack-query';
 import ActionButton from '../components/ActionButton';
 import ActionScreen from './ActionScreen';
+import { Actionsheet } from "@gluestack-ui/themed";
 
-
-
-import {
-
-  Actionsheet,
-} from "@gluestack-ui/themed";
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useSelector } from "react-redux";
 import { selectColorMode } from "../redux/slice";
@@ -25,10 +20,23 @@ import { selectColorMode } from "../redux/slice";
 import lightMap from "../mapStyle_json/lightMode.json"
 import darkMap from "../mapStyle_json/darkMode.json"
 
+
 export default function MapScreen() {
+
+
+  const { data, isSuccess } = useUbikeInfo();
+
+  const [showActionsheet, setShowActionsheet] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState([]);
+
+  const handleClose = (site) => {
+    setShowActionsheet(!showActionsheet);
+    setSelectedMarker(site);
+    // console.log(site);
+  }
+
   const [msg, setMsg] = useState("Waiting...");
   const [onCurrentLocation, setOnCurrentLocation] = useState(false);
-  const [ubike, setUbike] = useState([]);
   const [zoomRatio, setZoomRatio] = useState(1);
 
   const [screenSites, setScreenSites] = useState([]);
@@ -98,19 +106,13 @@ export default function MapScreen() {
     setOnCurrentLocation(true);
   }
 
-  const getUbikeData = async () => {
-    const ubikeData = await getUbikeInfo();
-    setUbike(ubikeData);
-  };
-
   useEffect(() => {
-    getUbikeData();
     getLocation();
   }, []);
 
-  const screenSite = ubike.filter((site) => {
-    if (Math.abs(site.lat - region.latitude) < 0.0021 &&
-      Math.abs(site.lng - region.longitude) < 0.0021) {
+  const screenSite = data.filter((site) => {
+    if (Math.abs(site.latitude - region.latitude) < 0.003 &&
+      Math.abs(site.longitude - region.longitude) < 0.003) {
       return site;
     }
   })
@@ -127,6 +129,7 @@ export default function MapScreen() {
         style={{ width: "100%", height: "75%" }}
         onRegionChangeComplete={onRegionChangeComplete}
         customMapStyle={colorMode == "light" ? lightMap : darkMap}
+        region={region}
       >
         <Marker
           coordinate={marker.coord}
@@ -138,19 +141,24 @@ export default function MapScreen() {
         {(zoomRatio > 0.14) && screenSites.map((site) => (
           <Marker
             coordinate={{
-              latitude: Number(site.lat),
-              longitude: Number(site.lng),
+              latitude: site.latitude,
+              longitude: site.longitude,
             }}
             key={site.sno}
-            title={`${site.sna} ${site.sbi}/${site.bemp}`}
+            title={`${site.sna} ${site.available_rent_bikes}/${site.available_return_bikes}`}
             description={site.ar}
+            onPress={() => handleClose(site)}
           >
             <ActionButton zoomRatio={zoomRatio} site={site} />
-
           </Marker>
         ))}
 
       </MapView>
+
+      <Actionsheet isOpen={showActionsheet} onClose={handleClose} closeOnOverlayClick={true}>
+        <ActionScreen handleClose={handleClose} selectedMarker={selectedMarker} />
+      </Actionsheet>
+
       {!onCurrentLocation && (
         <Box
           bg="white"
@@ -166,7 +174,7 @@ export default function MapScreen() {
           opacity={0.8}
         >
           <Center>
-            <TouchableOpacity onPress={getLocation}>
+            <TouchableOpacity onPress={() => getLocation()}>
               <Ionicons name={"locate-outline"}
                 size={50}
                 color="#F29D38"
@@ -180,7 +188,11 @@ export default function MapScreen() {
         <Box style={styles.bar} bg={blockMode}>
           <Box className="rounded-full">
             <Box h={"100%"} justifyContent="center" >
-
+              <Center>
+                <Text color={textMode}>
+                  本頁面會顯示目前您周遭300m之內的站點位置
+                </Text>
+              </Center>
             </Box>
           </Box>
         </Box>
@@ -188,8 +200,6 @@ export default function MapScreen() {
     </Box>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   bar: {

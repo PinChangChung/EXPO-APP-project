@@ -46,46 +46,10 @@ export default ({ position }) => {
         console.log(weatherData.weatherElement[0].time[0]);
     }
 
-    // const findData = () => {
-    //     // if (isSuccess) console.log("api成功");
-    //     // if (!isError) console.log("api沒出錯");
-
-    //     try {
-    //         // const dataObject = JSON.parse(data); //因為在api使用JSON.stringify，在這邊又再用一次，所以要包兩層JSON.parse
-    //         // setWeatherData(dataObject);
-    //         //console.log(weatherData);
-    //         //console.log(dataObject.success)
-    //         //console.log(JSON.parse(dataObject));
-
-    //         //console.log(weatherData?.records?.locations[0]?.location);
-    //         // findWeatherPoint = weatherData?.records?.locations[0]?.location.find((loc) => {
-    //         //     if (loc.lat == nearest?.geometry?.coordinates[1] && loc.lon == nearest?.geometry?.coordinates[0]) {
-    //         //         //console.log(loc);
-    //         //         return loc;
-
-    //         //     }
-    //         // })
-    //         //console.log(findWeatherPoint.locationName);
-    //         //setWeatherScreenInfo(findWeatherPoint);
-    //         //console.log(weatherData);
-    //         //console.log(weatherScreenInfo);
-    //     }
-    //     catch (error) {
-    //         console.log('Error parsing JSON:', error, data);
-    //     }
-    // }
     useEffect(() => {
         getWeatherData();
     }, [])
     console.log("進入天氣區域");
-
-    // useEffect(() => {
-    //     findData()
-    // }, [data])
-
-    const [weatherScreenInfo, setWeatherScreenInfo] = useState({});
-
-
     //console.log(data?.records?.locations[0]);
 
 
@@ -194,22 +158,6 @@ export default ({ position }) => {
     return (
         <>
             {
-                // false ?
-                //     <HStack>
-                //         <Center w={"100%"} mt={10}>
-                //             <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
-                //                 <HStack h={"100%"} justifyContent="center" alignItems="center">
-                //                     <Center>
-                //                         <Text color={textMode}>
-                //                             天氣資訊載入中...{`\n`}
-                //                             若無反應，請重新載入app
-                //                         </Text>
-                //                     </Center>
-                //                 </HStack>
-                //             </Box>
-                //         </Center>
-                //     </HStack>
-                //     :
                 <HStack>
                     <Center w={"100%"} mt={10}>
                         <Box bg={blockMode} h={150} w={"90%"} borderRadius={17}>
@@ -224,7 +172,7 @@ export default ({ position }) => {
                                     <Text pb={2} color={textMode}>
                                         {weatherData?.locationName ? getWeatherDescription() : "---"}
                                     </Text>
-                                    <Text pb={10} color={textMode}> 
+                                    <Text pb={10} color={textMode}>
                                         {weatherData?.locationName ? getWeatherTempDescription() : "---"}
                                     </Text>
                                     <HStack>

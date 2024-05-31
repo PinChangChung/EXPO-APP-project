@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 
 export const getWeatherInfo = async () => {
     const key = "CWA-A453F47E-8E1C-404D-A354-D4F4F7B1A7FE";

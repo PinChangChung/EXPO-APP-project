@@ -157,6 +157,9 @@ const Favorite = () => {
         longitude: site.longitude,
         latitude: site.latitude
       }])
+    } else {
+      alert(`僅能收藏最多10個最愛站點
+若想增加其他站點，請點選最愛清單右側的刪除鈕`)
     }
 
   }
@@ -262,7 +265,6 @@ const Favorite = () => {
           </Marker>
           {
             (zoomRatio > 0.14) && screenSites.map((site) => {
-
               let s;
               let f;
               for (let index = 0; index < items.length; index++) {
