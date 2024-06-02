@@ -42,6 +42,8 @@ const HomeScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getLocation();
+    // console.log(distanceMinSite);
+    // console.log(nearpot);
     setRefreshing(false);
   }, []);
 
@@ -111,21 +113,30 @@ const HomeScreen = () => {
       },
       (loc) => setRegionAndMarker(loc)
     );
+    // if (nearpot.length != 0) {
+    //   setNearpot([]);
+    //   setNearpot(distanceMinSite);
+    // } else {
+    //   setNearpot(distanceMinSite);
+    // }
+    // console.log(nearpot)
     setOnCurrentLocation(true);
   }
 
-  // useEffect(() => {
-  //   setNearpot(distanceMinSite);
-  // }, [marker]);
+  useEffect(() => {
+    setNearpot(distanceMinSite);
+    setScreenSites(screenSite);
+  }, [marker]);
 
   useEffect(() => {
     getLocation();
-    setNearpot(distanceMinSite);
+    // setNearpot([]);
+    // setNearpot(distanceMinSite);
     console.log(height);
   }, []);
 
 
-  const distanceMinSite = isSuccess && data.filter((site) => {
+  const distanceMinSite = isSuccess && data.find((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.0005 &&
       Math.abs(site.longitude - region.longitude) < 0.0005) {
       return site;
@@ -155,9 +166,7 @@ const HomeScreen = () => {
                     <HStack paddingHorizontal={10} mb={10} mt={-20} h={90} justifyContent="center" alignItems="center">
                       <Text paddingHorizontal={15} fontSize={18} color={textMode} textAlign="center">
                         離您最近的站點：{`\n`}
-                        <Text fontWeight="bold" fontSize={20} color={textMode}>{isSuccess && nearpot.length == 0 ? "周遭50公尺內暫無站點" : nearpot.map((site) => {
-                          return site.sna
-                        })}
+                        <Text fontWeight="bold" fontSize={20} color={textMode}>{nearpot?.sna ? nearpot.sna : "周遭50公尺內暫無站點"}
                         </Text>
                       </Text>
                     </HStack>
@@ -202,14 +211,10 @@ const HomeScreen = () => {
                       </Box>
                       <VStack ml={20}>
                         <Text color={textMode}>
-                          空柱：{isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
-                            return site.available_return_bikes
-                          })}
+                          空柱：{nearpot?.available_return_bikes ? nearpot.available_return_bikes : "---"}
                         </Text>
                         <Text color={textMode}>
-                          可借車輛：{isSuccess && nearpot.length == 0 ? "---" : nearpot.map((site) => {
-                            return site.available_rent_bikes
-                          })}
+                          可借車輛：{nearpot?.available_rent_bikes ? nearpot.available_rent_bikes : "---"}
                         </Text>
                       </VStack>
                     </HStack>

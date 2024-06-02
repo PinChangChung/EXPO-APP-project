@@ -171,7 +171,7 @@ const MyDrawer = () => {
         }}
       />
       <Drawer.Screen
-        name="setting"
+        name="Drawersetting"
         component={Setting}
         options={{
           headerShown: false,
