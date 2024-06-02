@@ -36,14 +36,29 @@ import Animated, {
 
 
 import { PanGestureHandler } from "react-native-gesture-handler";
-import { flatten } from "@turf/turf";
 
+import { store, useGlobalState,createState } from 'state-pool';
+const favorite = createState([
+  {
+    id: 0,
+    stationID: 0,
+    station: "點擊地圖站點以增加最愛站點項目",
+    longitude: 0,
+    latitude: 0
+  },
+  {
+    id: 1,
+    stationID: 0,
+    station: "最愛項目數量以10個為限",
+    longitude: 0,
+    latitude: 0
+  }
+]);
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 
 const Favorite = () => {
-
   const colorScheme = useColorScheme();
   const initialMode = useSharedValue(true);
   const height = (Dimensions.get('window').height);
@@ -126,17 +141,6 @@ const Favorite = () => {
     getLocation();
   }, []);
 
-  // const getMapLocation = setRegion({
-  //    ...region,
-  //    longitude: marker.coord.longitude,
-  //    latitude: marker.coord.latitude,
-  // });
-
-
-  // useEffect(() => {
-  //    getLocation();
-  // }, [ubike]);
-
   const screenSite = isSuccess && data.filter((site) => {
     if (Math.abs(site.latitude - region.latitude) < 0.005 &&
       Math.abs(site.longitude - region.longitude) < 0.005) {
@@ -169,24 +173,7 @@ const Favorite = () => {
     getLocation();
   }, []);
 
-  const [items, setItems] = useState(
-    [
-      {
-        id: 0,
-        stationID: 0,
-        station: "點擊地圖站點以增加最愛站點項目",
-        longitude: 0,
-        latitude: 0
-      },
-      {
-        id: 1,
-        stationID: 0,
-        station: "最愛項目數量以10個為限",
-        longitude: 0,
-        latitude: 0
-      }
-    ]
-  );
+  const [items, setItems] = favorite.useState();
 
   const favLocation = (lon, lat) => {
     if (lon != 0 && lat != 0) {

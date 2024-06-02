@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import { Platform } from "react-native";
-import { Box, Center, HStack, Input, InputField } from '@gluestack-ui/themed';
+import { Box, Center, HStack, Input, InputField, Pressable } from '@gluestack-ui/themed';
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -158,7 +158,7 @@ export default function MapScreen() {
    const handleClose = (site) => {
       setShowActionsheet(!showActionsheet);
       setSelectedMarker(site);
-      // console.log(site);
+      console.log("站點被點擊");
    }
 
    const colorMode = useSelector(selectColorMode);

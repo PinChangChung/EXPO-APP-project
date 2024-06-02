@@ -14,7 +14,6 @@ export default ({ zoomRatio, site, red }) => {
   return (
     <>
       {
-
         red == true ?
           <Center
             bg="#FF0000"
