@@ -216,7 +216,10 @@ export default function MapScreen() {
                   description={site.ar}
                   onPress={() => handleClose(site)}
                >
-                  <ActionButton zoomRatio={zoomRatio} site={site} />
+                  <Callout onPress={() => handleClose(site)}>
+                     <ActionButton zoomRatio={zoomRatio} site={site} />
+                  </Callout>
+
                </Marker>
             ))}
 

@@ -124,6 +124,7 @@ export default function MapScreen() {
 
   return (
     <Box flex={1}>
+
       <MapView
         initialRegion={region}
         style={{ width: "100%", height: "75%" }}
@@ -187,12 +188,15 @@ export default function MapScreen() {
       <Center h={"25%"} bg={colorMode == "light" ? "#FFE27B" : "#2E251B"}>
         <Box style={styles.bar} bg={blockMode}>
           <Box className="rounded-full">
-            <Box h={"100%"} justifyContent="center" >
-              <Center>
-                <Text color={textMode}>
-                  本頁面會顯示目前您周遭300m之內的站點位置
-                </Text>
+            <Box h={"100%"} w={"100%"} justifyContent="center">
+              <Center flex={1}>
+                <Center w={"90%"}>
+                  <Text color={textMode} textAlign='center'>
+                    本頁面會顯示目前您周遭300m之內的站點位置
+                  </Text>
+                </Center>
               </Center>
+
             </Box>
           </Box>
         </Box>

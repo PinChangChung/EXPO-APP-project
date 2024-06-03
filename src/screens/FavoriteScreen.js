@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useState, useEffect } from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import { Platform } from "react-native";
 import * as Location from 'expo-location';
 import * as Device from "expo-device";
@@ -37,7 +37,7 @@ import Animated, {
 
 import { PanGestureHandler } from "react-native-gesture-handler";
 
-import { store, useGlobalState,createState } from 'state-pool';
+import { store, useGlobalState, createState } from 'state-pool';
 const favorite = createState([
   {
     id: 0,
@@ -207,10 +207,13 @@ const Favorite = () => {
         description={site.ar}
         onPress={() => handleClose(site)}
       >
-        <ActionButton
-          zoomRatio={zoomRatio}
-          site={site}
-          red={false} />
+        <Callout onPress={() => handleClose(site)}>
+          <ActionButton
+            zoomRatio={zoomRatio}
+            site={site}
+            red={false} />
+        </Callout>
+
       </Marker>
     )
   }
@@ -226,10 +229,13 @@ const Favorite = () => {
         description={site.ar}
         onPress={() => handleClose(site)}
       >
-        <ActionButton
-          zoomRatio={zoomRatio}
-          site={site}
-          red={true} />
+        <Callout onPress={() => handleClose(site)}>
+          <ActionButton
+            zoomRatio={zoomRatio}
+            site={site}
+            red={true} />
+        </Callout>
+
       </Marker>
     )
   }
@@ -244,6 +250,9 @@ const Favorite = () => {
           onRegionChangeComplete={onRegionChangeComplete}
           customMapStyle={colorMode == "light" ? lightMap : darkMap}
           region={region}
+        // zoomControlEnabled={false}
+        // zoomTapEnabled={false}
+        // zoomEnabled={false}
         >
           <Marker
             coordinate={marker.coord}
@@ -264,7 +273,6 @@ const Favorite = () => {
               }
               if (s) return bikepic(s);
               else return bikepic(site);
-
             })
           }
 
